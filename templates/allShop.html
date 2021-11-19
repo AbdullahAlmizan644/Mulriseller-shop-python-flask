@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}All Shop{% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- feature_part start-->
+<section class="feature_part padding_top">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="section_tittle text-center">
+                    <h2>FInd your nearest suitable  Shop</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center justify-content-between">
+            {% for shop in shops %}
+            <div class="col-lg-6 col-sm-6">
+                <div class="single_feature_post_text">
+                    <p></p>
+                    <h3>{{ shop.1 }}</h3>
+                    <a href="/shop/{{ shop.0 }}" class="feature_btn">EXPLORE NOW <i class="fas fa-play"></i></a>
+                    <!--<img style="width: 400px; height: 300px;" src={{ url_for("static", filename="front/img/shop/shop_1.png")}} alt="">-->
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

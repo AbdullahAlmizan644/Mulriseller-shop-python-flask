@@ -1,0 +1,132 @@
+{% extends "baseDashboard.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800"> user Tables</h1>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Users Table</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>email</th>
+                                            <th>phone</th>
+                                            <th>division</th>
+                                            <th>district</th>
+                                            <th>area</th>
+                                            <th>password</th>
+                                            <th>date</th>
+                                            <th>Block User</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                         <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>email</th>
+                                            <th>phone</th>
+                                            <th>division</th>
+                                            <th>district</th>
+                                            <th>area</th>
+                                            <th>password</th>
+                                            <th>date</th>
+                                            <th>Block User</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for user in users %}
+                                        <tr>
+                                            <td>{{user.0}}</td>
+                                            <td>{{user.1}}</td>
+                                            <td>{{user.2}}</td>
+                                            <td>{{user.3}}</td>
+                                            <td>{{user.4}}</td>
+                                            <td>{{user.5}}</td>
+                                            <td>{{user.6}}</td>
+                                            <td>{{user.7}}</td>
+                                            <td>{{user.8}}</td>
+                                            <td><button type="button" class="btn btn-outline-danger">Block</button>                                     
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800"> Shop Tables</h1>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">shops Table</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>shoName</th>
+                                            <th>password</th>
+                                            <th>date</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>shoName</th>
+                                            <th>password</th>
+                                            <th>date</th>
+                                            <th>delete</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for shop in shops %}
+                                        <tr>
+                                            <td>{{shop.0}}</td>
+                                            <td>{{shop.1}}</td>
+                                            <td>{{shop.2}}</td>
+                                            <td>{{shop.3}}</td>
+                                            <td><button type="button" class="btn btn-outline-danger">Delete</button></td>                                        
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- End of Main Content -->
+
+{% endblock %}

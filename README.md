@@ -1,0 +1,6 @@
+# python_flask_interior_design_project
+# python_flask_interior_design_shop_project
+# python_flask_interior_design_shop_project
+#admin email:admin@gmail.com
+#password:12345678
+# python_flask_interior_design_product_shop_project
