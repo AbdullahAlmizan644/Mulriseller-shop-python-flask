@@ -1,25 +1,34 @@
 from itertools import product
 import re
-from flask import Flask,render_template,request,redirect,session
+from unicodedata import category
+from flask import Flask,render_template,request,redirect,session,flash
 from flask.helpers import url_for
 from flask_mysqldb import MySQL
 from datetime import datetime
 import math
 from flask_mail import Mail,Message
 from random import randint
-
+from werkzeug.utils import secure_filename
+import os
 from werkzeug.utils import send_file
+from PIL import Image
+
+UPLOAD_FOLDER = '/home/ares/python_flask_interior_design_product_shop_project/static/front/img'
+
+#ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
 app=Flask(__name__)
 mail=Mail(app)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 
 app.config["MAIL_SERVER"]='smtp.gmail.com'  
 app.config["MAIL_PORT"] = 465
 app.config['MAIL_USE_TLS'] = False  
 app.config['MAIL_USE_SSL'] = True  
 app.config["MAIL_USERNAME"] = 'abdullahalmizan644@gmail.com'  
-app.config['MAIL_PASSWORD'] = '********'  
+app.config['MAIL_PASSWORD'] = '5255452554'  
 mail=Mail(app)
 otp=randint(000000,999999)
 
@@ -106,7 +115,6 @@ def verify():
         mysql.connection.commit()
 
         msg=Message('OTP',sender="abdullahalmizan644@gmail.com", recipients=[email])
-        print(msg)
         msg.body=str(otp)
         mail.send(msg)
         return render_template("verify.html")
@@ -130,16 +138,51 @@ def validate():
 def login():
     if request.method=="POST":
         email=request.form.get('email')
-        session["user"]=email
         password=request.form.get('password')
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM users WHERE email=%s AND password=%s ",(email,password,))
         data=cur.fetchone()
         if data is not None:
+            session["user"]=email
             return redirect("/userProfile")
         else:
-            return"<script>alert('wrong email or password')</script>"
+            flash("Wrong email or password")
+            return redirect(request.url)
     return render_template("login.html")
+
+
+@app.route("/changeUserPassword",methods=["GET","POST"])
+def changeUserPassword():
+    if 'user' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM users WHERE email=%s ",(session['user'],))
+        users=cur.fetchone()
+        password=users[7]
+        if request.method=="POST":
+            old=request.form.get('old')
+            new=request.form.get('new')
+            confirm=request.form.get('confirm')
+
+            if old=='' or new=='':
+                flash("blank")
+                return redirect(request.url)
+            if old!=password:
+                flash("old pasword not correct")
+                return redirect(request.url)
+            elif new!=confirm:
+                flash("password doesn't match")
+                return redirect(request.url)
+            else:
+                cur=mysql.connection.cursor()
+                cur.execute("UPDATE users SET password=%s WHERE email=%s ",(new,session['user'],))
+                mysql.connection.commit()
+
+                flash("password changed")
+                return redirect(request.url)
+        
+        return render_template("changeUserPassword.html",users=users)
+            
+
 
 
 
@@ -149,10 +192,44 @@ def userProfile():
         session_email=session["user"]
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM users WHERE email=%s",(session_email,))
-        users=cur.fetchall()
+        users=cur.fetchone()
         return render_template("userProfile.html",users=users)
     else:
         return redirect("/login")
+
+
+
+@app.route('/userImageUploader', methods = ['GET', 'POST'])
+def userImageUploader():
+    if 'user' in session:
+        session_id=session["user"]
+        if request.method=='POST':
+            f = request.files['file']
+            if f.filename == '':
+                flash('No selected file')
+                return redirect("/userProfile")
+            else:
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+                cur =mysql.connection.cursor()
+                cur.execute("UPDATE users SET image = %s WHERE email = %s", (f.filename,session_id))
+                mysql.connection.commit()
+                return redirect("/userProfile")
+        return redirect("/userProfile")
+
+
+
+
+@app.route("/orderHistory")
+def orderHistory():
+    if "user" in session:
+        session_email=session["user"]
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM users WHERE email=%s",(session_email,))
+        users=cur.fetchone()
+        cur =mysql.connection.cursor()
+        cur.execute("SELECT * FROM orders WHERE email=%s",(session_email,))
+        orders=cur.fetchall()
+        return render_template("orderHistory.html", orders=orders,users=users)
 
 
 
@@ -192,95 +269,163 @@ def allShop():
 
 @app.route("/shop/<int:shopId>")
 def shop(shopId):
-    cur=mysql.connection.cursor()
-    cur.execute("SELECT * FROM  products WHERE shopId=%s",(shopId,))
-    shopProducts=cur.fetchall()
+    if "user" in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products where shopId=%s",(shopId,) )
+        shop=cur.fetchone()
 
-    cur=mysql.connection.cursor()
-    cur.execute("SELECT * FROM  products")
-    products=cur.fetchall()
-    return render_template("shop.html",shopProducts=shopProducts,products=products)
+
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products WHERE shopId=%s",(shopId,))
+        shopProducts=cur.fetchall()
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products")
+        products=cur.fetchall()
+        return render_template("shop.html",shopProducts=shopProducts,products=products,shop=shop)
+    else:
+        return redirect("/login")
 
         
 
 @app.route("/singleProduct/<int:id>",methods=["GET","POST"])
 def singleProduct(id):
-    cur=mysql.connection.cursor()
-    cur.execute("SELECT * FROM  products WHERE id=%s",(id,))
-    single_product=cur.fetchone()
-
-    productId=single_product[0]
-    cur=mysql.connection.cursor()
-    cur.execute("SELECT * FROM  products")
-    products=cur.fetchall()
-
-    cur=mysql.connection.cursor()
-    cur.execute("SELECT * FROM  reviews WHERE productId=%s",(id,))
-    comments=cur.fetchall()
-
-
-    if request.method=="POST":
-        name=request.form.get("name")
-        email=request.form.get("email")
-        number=request.form.get("number")
-        message=request.form.get("message")
-
-        cur=mysql.connection.cursor()
-        cur.execute(' INSERT INTO reviews(name,email,number,comment,date,productId) VALUES (%s,%s,%s,%s,%s,%s)',(name,email,number,message,datetime.now(),productId))
-        mysql.connection.commit()
-
-        return redirect(request.url)
-
-    
-    return render_template("singleProduct.html", products=products,single_product=single_product,comments=comments)
-
-
-        
-
-
-
-
-@app.route("/checkout/<int:id>")
-def checkout(id):
-    cur=mysql.connection.cursor()
-    cur.execute("SELECT * FROM  products WHERE id=%s",(id,))
-    single_product=cur.fetchone()
-    return render_template("checkout.html",single_product=single_product)
-
-
-@app.route("/order/<int:id>", methods=["GET","POST"])
-def order(id):
-    if request.method=="POST":
-        firstName=request.form.get("firstName")
-        lastName=request.form.get("lastName")
-        number=request.form.get("number")
-        email=request.form.get("email")
-        address=request.form.get("address")
-        selector=request.form.get("selector")
-
+    if "user" in session:
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM  products WHERE id=%s",(id,))
         single_product=cur.fetchone()
 
-        productName=single_product[0]
-        productPrice=int(single_product[3])+100
-
-
+        productId=single_product[0]
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products")
+        products=cur.fetchall()
 
         cur=mysql.connection.cursor()
-        cur.execute('INSERT INTO orders (firstName,lastName,number,email,address,paymentMethod,productName,total,date) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)' ,(firstName,lastName,number,email,address,selector,productName,productPrice,datetime.now(),) )
-        mysql.connection.commit()
-        return "order taken"
-
-    else:
-        return "fill all "
+        cur.execute("SELECT * FROM  reviews WHERE productId=%s",(id,))
+        comments=cur.fetchall()
 
 
-@app.route("/cart")
-def cart():
-    return render_template("cart.html")
+        if request.method=="POST":
+            message=request.form.get("message")
+
+            cur=mysql.connection.cursor()
+            cur.execute("SELECT * FROM  users WHERE email=%s",(session['user'],))
+            users=cur.fetchone()
+
+            name=users[1]
+            email=users[2]
+            number=users[3]
 
 
+            cur=mysql.connection.cursor()
+            cur.execute(' INSERT INTO reviews(name,email,number,comment,date,productId) VALUES (%s,%s,%s,%s,%s,%s)',(name,email,number,message,datetime.now(),productId))
+            mysql.connection.commit()
+
+            return redirect(request.url)
+
+    
+        return render_template("singleProduct.html", products=products,single_product=single_product,comments=comments)
+
+
+        
+@app.route("/category/furniture/<int:id>",methods=["GET","POST"])
+def category(id):
+    if "user" in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
+        shop=cur.fetchone()
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
+        products=cur.fetchall()
+        
+
+        return render_template("furniture.html",products=products, shop=shop)
+
+@app.route("/category/electronics/<int:id>",methods=["GET","POST"])
+def electronics(id):
+    if "user" in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
+        shop=cur.fetchone()
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products")
+        products=cur.fetchall()
+
+        return render_template("electronics.html",products=products,shop=shop)
+
+@app.route("/category/sanitarySystems/<int:id>",methods=["GET","POST"])
+def sanitary(id):
+    if "user" in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
+        shop=cur.fetchone()
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products")
+        products=cur.fetchall()
+
+        return render_template("sanitary.html",products=products, shop=shop)
+
+
+@app.route("/category/wallDecoration/<int:id>",methods=["GET","POST"])
+def wall(id):
+    if "user" in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
+        shop=cur.fetchone()
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products")
+        products=cur.fetchall()
+
+        return render_template("wall.html",products=products, shop=shop)
+
+
+@app.route("/category/painting/<int:id>",methods=["GET","POST"])
+def painting(id):
+    if "user" in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
+        shop=cur.fetchone()
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products")
+        products=cur.fetchall()
+
+        return render_template("painting.html",products=products, shop=shop)
+
+
+
+@app.route("/checkout/<int:id>",methods=["POST","GET"])
+def checkout(id):
+    if "user" in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products WHERE id=%s",(id,))
+        single_product=cur.fetchone()
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  users WHERE email=%s",(session["user"],))
+        user=cur.fetchone()
+
+        if request.method=="POST":
+            address=request.form.get("address")
+            selector=request.form.get("selector")
+
+
+            productId=single_product[0]
+            print(single_product[0])
+            productName=single_product[1]
+            productPrice=single_product[3]
+            total=int(single_product[3])+100
+            cur=mysql.connection.cursor()  
+            cur.execute('INSERT INTO orders (name,number,email,address,paymentMethod,productId,total,date,productName,productPrice) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)' ,(user[1],user[3],user[2],address,selector,productId,total,datetime.now(),productName,productPrice) )
+            mysql.connection.commit()
+            return render_template("confirmation.html")
+
+        return render_template("checkout.html",single_product=single_product)
 
 
 
@@ -289,41 +434,102 @@ def cart():
 """"Admin Panel"""
 @app.route("/adminLogin", methods=["GET","POST"])
 def adminLogin():
+    if 'admin' in session:
+        return redirect("/dashboard")
     if request.method=="POST":
         email=request.form.get("email")
+        session['admin']=email
         password=request.form.get("password")
         print(email)
         if email=="admin@gmail.com" and password=="12345":
             return redirect("/dashboard")
         else:
-            return"<script>alert('wrong email or password')</script>"
+            flash("wrong name or password")
+            return redirect(request.url)
     return render_template("adminLogin.html")
+
+@app.route("/adminLogout")
+def adminLogout():
+    session.pop("admin", None)
+    return redirect("/")
+
 
 
 
 @app.route("/dashboard")
 def dashboard():
-    cur=mysql.connection.cursor()
-    cur.execute("SELECT * FROM users")
-    users=cur.fetchall()   
-    print(users)
-    return render_template("dashboard.html",users=users)
+    if 'admin' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM users")
+        users=cur.fetchall()   
+        return render_template("dashboard.html",users=users)
+    else:
+        return redirect("/adminLogin")
+
+
+@app.route("/deleteUser/<int:sno>")
+def deleteUser(sno):
+    if 'admin' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("DELETE FROM users WHERE sno=%s",(sno,))
+        mysql.connection.commit()
+        return redirect("/tables")
+
+
+
+
+@app.route("/deleteShop/<int:id>")
+def deleteShop(id):
+    if 'admin' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("DELETE FROM shops WHERE shopId=%s",(id,))
+        mysql.connection.commit()
+        return redirect("/tables")
+
+
+@app.route("/deleteOrder/<int:id>")
+def deleteOrder(id):
+    if 'admin' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("DELETE FROM orders WHERE sno=%s",(id,))
+        mysql.connection.commit()
+        return redirect("/tables")
+
+
+
 
 
 
 @app.route("/tables")
 def tables():
-    cur=mysql.connection.cursor()
-    cur.execute("SELECT * FROM products")
-    products=cur.fetchall() 
-    cur.execute("SELECT * FROM users")  
-    users=cur.fetchall() 
+    if 'admin' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM products")
+        products=cur.fetchall() 
 
-    cur.execute("SELECT * FROM shops")  
-    shops=cur.fetchall() 
-    return render_template("tables.html",products=products,users=users,shops=shops)
+        cur.execute("SELECT * FROM users")  
+        users=cur.fetchall() 
+
+        cur.execute("SELECT * FROM shops")  
+        shops=cur.fetchall() 
+
+        cur.execute("SELECT * FROM orders")  
+        orders=cur.fetchall() 
+        
+
+        return render_template("tables.html",products=products,users=users,shops=shops,orders=orders)
+
+    else:
+        return redirect("/adminLogin")
 
 
+@app.route("/approveOrder/<int:id>")
+def approveOrder(id):
+    if 'admin' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("UPDATE orders set status=%s WHERE sno=%s",("1",id))
+        mysql.connection.commit()
+        return redirect("/tables")
 
 
 """"Seller login"""
@@ -355,7 +561,7 @@ def sellerLogin():
             session["seller"]=data[0]
             return redirect("/sellerProfile")
         else:
-            return"<script>alert('wrong email or password')</script>"
+            flash("Wrong Shop Name or password")
     return render_template("sellerLogin.html")
 
 
@@ -366,10 +572,38 @@ def sellerProfile():
         session_id=session["seller"]
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM shops WHERE shopId=%s",(session_id,))
-        seller=cur.fetchall()
+        seller=cur.fetchone()
         return render_template("sellerProfile.html",seller=seller)
     else:
         return redirect("/sellerLogin")
+
+
+
+@app.route('/sellerImageUploader', methods = ['GET', 'POST'])
+def sellerImageUploader():
+    if 'seller' in session:
+        session_id=session["seller"]
+        if request.method=='POST':
+            f = request.files['file']
+            if f.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            else:
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+                cur =mysql.connection.cursor()
+                cur.execute("UPDATE shops SET shopImage = %s WHERE shopId = %s", (f.filename,session_id))
+                mysql.connection.commit()
+                return redirect(request.url)
+        return redirect("/sellerProfile")
+
+            
+
+
+            
+
+
+
+
 
 @app.route("/sellerLogout")
 def sellerLogout():
@@ -391,7 +625,13 @@ def sellerDashboard():
         products=cur.fetchall()
     return render_template("sellerDashboard.html",products=products)
 
-
+@app.route("/deleteProduct/<int:id>")
+def deleteProduct(id):
+    if 'seller' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("DELETE FROM products WHERE Id=%s",(id,))
+        mysql.connection.commit()
+        return redirect("/sellerDashboard")
 
 
 
@@ -402,18 +642,38 @@ def sellerAddProduct():
             productName=request.form.get('productName')
             productDescription=request.form.get('productDescription')
             productPrice=request.form.get('productPrice')
-            productImage=request.form.get('productImage')
-            category=request.form.get('category')
-            shopId=session["seller"]
-            cur=mysql.connection.cursor()
-            cur.execute('INSERT INTO products(product_name,product_description,product_price,product_image,category,sold,rating,date,shopId) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)', (productName,productDescription,productPrice,productImage,category,0,0,datetime.now(),shopId,) )
-            mysql.connection.commit()
-            return redirect("/sellerDashboard")
+            #productImage=request.form.get('productImage')
+            productImage = request.files['productImage']
+            if productImage.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            else:
+                productImage.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(productImage.filename)))
+                category=request.form.get('category')
+                shopId=session["seller"]
+                cur=mysql.connection.cursor()
+                cur.execute('INSERT INTO products(product_name,product_description,product_price,product_image,category,sold,rating,date,shopId) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)', (productName,productDescription,productPrice,productImage.filename,category,0,0,datetime.now(),shopId,) )
+                mysql.connection.commit()
+                return redirect("/sellerDashboard")
     return render_template("sellerAddProduct.html")
 
 
 
 
+
+@app.route("/searchProduct",methods=["GET","POST"])
+def searchProduct():
+    if "user" in session:
+        if request.method=="POST":
+            search_name=request.form.get("searchProduct")
+            cur=mysql.connection.cursor()
+            cur.execute(f"SELECT * FROM products WHERE product_name LIKE '%{search_name}%'")
+            s_result=cur.fetchall()
+
+        return render_template("searchProduct.html",s_result=s_result,search_name=search_name)
+
+    else:
+        return redirect("/login")
 
 
 

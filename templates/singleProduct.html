@@ -34,7 +34,7 @@
       <div class="col-lg-7 col-xl-7">
         <div class="product_slider_img">
           <div id="vertical">
-            {% set img = "front/img/product/" + single_product.4 %}
+            {% set img = "front/img/" + single_product.4 %}
             <div data-thumb=img/product/single-product/product_1.png>
               <img src={{ url_for("static", filename=img )}}>
             </div>
@@ -236,22 +236,7 @@
               <form class="row contact_form" action="" method="post" novalidate="novalidate">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <input type="text" class="form-control" name="name" placeholder="Your Full name" />
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="Email Address" />
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <input type="text" class="form-control" name="number" placeholder="Phone Number" />
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <textarea class="form-control" name="message" rows="1" placeholder="Review"></textarea>
+                    <textarea class="form-control" name="message" rows="1" style="height: 200px;" placeholder="Review"></textarea>
                   </div>
                 </div>
                 <div class="col-md-12 text-right">

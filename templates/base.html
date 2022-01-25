@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}{% endblock %} - My Webpage</title>
-    <link rel="icon" href={{ url_for ("static", filename="front/img/favicon.png")}}>
+    <!--<link rel="icon" href={{ url_for ("static", filename="front/img/favicon.png")}}>-->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href={{ url_for ("static", filename="front/css/bootstrap.min.css")}}>
     <!-- animate CSS -->
@@ -37,7 +37,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <!--<a class="navbar-brand" href="/"> <img src={{ url_for ("static", filename="front/img/logo.png")}} alt="logo"> </a>-->
+                        <a class="navbar-brand" href="/" > <img height="50px" width="40px" src={{ url_for ("static", filename="front/img/icon/play.svg")}} alt="logo">Interior Shop</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -70,8 +70,9 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                                         <a class="dropdown-item" href="/login"> login</a>
-                                        <a class="dropdown-item" href="/adminLogin">Admin Login</a>
                                         <a class="dropdown-item" href="/sellerLogin">seller Login</a>
+                                        <a class="dropdown-item" href="/adminLogin">Admin Login</a>
+
                                         <!--<a class="dropdown-item" href="elements.html">elements</a>-->
                                     </div>
                                 </li>
@@ -104,6 +105,11 @@
                                     <a class="nav-link" href="/sellerProfile">sellerProfile</a>
                                 </li>
                                 {% endif %}
+                                {% if "admin" in session %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/dashboard">Admin</a>
+                                </li>
+                                {% endif %}
                             </ul>
                         </div>
                         <div class="hearer_icon d-flex">
@@ -124,8 +130,8 @@
         </div>
         <div class="search_input" id="search_input_box">
             <div class="container ">
-                <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+                <form class="d-flex justify-content-between search-inner" method="post" action="/searchProduct">
+                    <input type="text" class="form-control" id="search_input" name="searchProduct" placeholder="Search Here" required>
                     <button type="submit" class="btn</button>
                     <span class="ti-close" id="close_search" title="Close Search"></span>
                 </form>
@@ -144,7 +150,7 @@
     {% block footer %}
         <div class="container">
             <div class="row justify-content-around">
-                <div class="col-sm-6 col-lg-2">
+                <!-- <div class="col-sm-6 col-lg-2">
                     <div class="single_footer_part">
                         <h4>Top Products</h4>
                         <ul class="list-unstyled">
@@ -154,8 +160,8 @@
                             <li><a href="">Marketing Service</a></li>
                         </ul>
                     </div>
-                </div>
-                <div class="col-sm-6 col-lg-2">
+                </div> -->
+                <!-- <div class="col-sm-6 col-lg-2">
                     <div class="single_footer_part">
                         <h4>Quick Links</h4>
                         <ul class="list-unstyled">
@@ -176,7 +182,7 @@
                             <li><a href="">Terms of Service</a></li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
                 <!--<div class="col-sm-6 col-lg-2">
                     <div class="single_footer_part">
                         <h4>Resources</h4>

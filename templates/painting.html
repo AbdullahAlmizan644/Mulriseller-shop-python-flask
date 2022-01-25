@@ -39,31 +39,30 @@
                                 <h3>Categories</h3>
                             </div>
                             <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="/shop/{{ shop.9 }}">All</a>
+                                <li>
+                                    <a href="/shop/{{ shop.9 }}">All</a>
 
-                                    </li>
-                                    <li>
-                                        <a href="/category/furniture/{{ shop.9}}">Furniture</a>
+                                </li>
+                                <li>
+                                    <a href="/category/furniture/{{ shop.9}}">Furniture</a>
 
-                                    </li>
-                                    <li>
-                                        <a href="/category/electronics/{{ shop.9 }}">Electronics</a>
+                                </li>
+                                <li>
+                                    <a href="/category/electronics/{{ shop.9 }}">Electronics</a>
 
-                                    </li>
-                                    <li>
-                                        <a href="/category/sanitarySystems/{{ shop.9 }}">Sanitary systems</a>
+                                </li>
+                                <li>
+                                    <a href="/category/sanitarySystems/{{ shop.9 }}">Sanitary systems</a>
 
-                                    </li>
-                                    <li>
-                                        <a href="/category/wallDecoration/{{ shop.9 }}">wall decoration</a>
+                                </li>
+                                <li>
+                                    <a href="/category/wallDecoration/{{ shop.9 }}">wall decoration</a>
 
-                                    </li>
-                                    <li>
-                                        <a href="/category/painting/{{ shop.9 }}">Painting</a>
+                                </li>
+                                <li>
+                                    <a href="/category/painting/{{ shop.9 }}">Painting</a>
 
-                                    </li>
+                                </li>
                                 </ul>
                             </div>
                         </aside>
@@ -198,7 +197,8 @@
                     </div>
 
                     <div class="row align-items-center latest_product_inner">
-                        {% for product in shopProducts %}
+                        {% for product in products %}
+                        {% if product.5 == "Painting" %}
                         {% set img = "front/img/" +product.4 %}
                         <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
@@ -211,6 +211,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                         {% endfor %}
                         <!--<div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">

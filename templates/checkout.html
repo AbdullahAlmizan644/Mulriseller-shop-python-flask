@@ -3,6 +3,13 @@
 {% block head %}
 {{ super() }}
 <style type="text/css">
+  .m{
+    margin: 0px 0px;
+  }
+
+  .s{
+    margin: 42px -26px;
+  }
 
 </style>
 {% endblock %}
@@ -18,29 +25,44 @@
       <div class="row">
         <div class="col-lg-8">
           <h3>Billing Details</h3>
-<form class="row contact_form" action="/order/{{ single_product.0 }}" method="post" >
-            <div class="col-md-6 form-group p_star">
-              <input type="text" class="form-control" id="first" name="firstName" />
-              <span class="placeholder" data-placeholder="First name"></span>
-            </div>
-            <div class="col-md-6 form-group p_star">
-              <input type="text" class="form-control" id="last" name="lastName" />
-              <span class="placeholder" data-placeholder="Last name"></span>
+          <form class="row contact_form" action="/checkout/{{ single_product.0 }}" method="post">
+            <div class="form-floating">
+              <label for="floatingTextarea2">Address</label>
+              <textarea class="form-control" name="address" placeholder="Give your address in Details" id="floatingTextarea2" style="width: 500px; height: 100px"></textarea>
+              
+              <div>
+                <br>
+                <h3>Payment Method</h3>
+                <div class="form-check m">
+                  <input class="form-check-input s" type="radio" name="selector" value="cash on delivery" id="flexRadioDefault1">
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Cash on delivery
+                  </label>
+                  <img width="100px" height="100px" src={{url_for("static", filename="front/img/icon/cash.jpg" )}} alt="">
+                </div>
+
+                <br>
+                <div class="form-check m">
+                  <input class="form-check-input s" type="radio" name="selector" value="Bikash" id="flexRadioDefault1">
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Bikash
+                  </label>
+                  <img width="200px" height="100px" src={{url_for("static", filename="front/img/icon/bikash.svg" )}} alt="">
+                  <img src="" alt="">
+                </div>
+
+                <br>
+                <div class="form-check m">
+                  <input class="form-check-input s" type="radio" name="selector" value="Nogod" id="flexRdioDefault1">
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Nogod
+                  </label>
+                  <img width="100px" height="100px" src={{url_for("static", filename="front/img/icon/nogod.svg" )}} alt="">
+                </div>
+              </div>
             </div>
 
-            <div class="col-md-6 form-group p_star">
-              <input type="text" class="form-control" id="number" name="number" />
-              <span class="placeholder" data-placeholder="Phone number"></span>
-            </div>
-            <div class="col-md-6 form-group p_star">
-              <input type="email" class="form-control" id="email" name="email" />
-              <span class="placeholder" data-placeholder="Email Address"></span>
-            </div>
-            <div class="col-md-12 form-group p_star">
-              <input type="text" class="form-control" id="add1" name="address" />
-              <span class="placeholder" data-placeholder="Address"></span>
 
-            </div>
 
         </div>
         <div class="col-lg-4">
@@ -76,38 +98,18 @@
                 </a>
               </li>
             </ul>
-            <div class="payment_item">
-              <div class="radion_btn">
-                <input type="radio" id="f-option5" name="selector" value="cash on delivery" />
-                <label for="f-option5">Cash on Delivery</label>
-                <div class="check"></div>
-              </div>
-            </div>
-            <div class="payment_item active">
-              <div class="radion_btn">
-                <input type="radio" id="f-option6" name="selector" value="Bikash" />
-                <label for="f-option6">Biksh </label>
-                <img src="img/product/single-product/card.jpg" alt="" />
-                <div class="check"></div>
-              </div>
-            </div>
-            <div class="payment_item active">
-              <div class="radion_btn">
-                <input type="radio" id="f-option6" name="selector" value="Nogod" />
-                <label for="f-option6">Nogod</label>
-                <img src="img/product/single-product/card.jpg" alt="" />
-                <div class="check"></div>
-              </div>
-            </div>
+            <br>
+            <br>
+
             <!--<a class= href="/order/{{ single_product.0 }}">Confirm Order</a>-->
-            <button class="btn_3" type="submit" >confirm Order</button>
+            <button class="btn_3" type="submit">confirm Order</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-</form>
+  </form>
 </section>
 <!--================End Checkout Area =================-->
 

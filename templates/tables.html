@@ -33,7 +33,6 @@
                                             <th>division</th>
                                             <th>district</th>
                                             <th>area</th>
-                                            <th>password</th>
                                             <th>date</th>
                                             <th>Block User</th>
                                         </tr>
@@ -47,7 +46,6 @@
                                             <th>division</th>
                                             <th>district</th>
                                             <th>area</th>
-                                            <th>password</th>
                                             <th>date</th>
                                             <th>Block User</th>
                                         </tr>
@@ -62,10 +60,8 @@
                                             <td>{{user.4}}</td>
                                             <td>{{user.5}}</td>
                                             <td>{{user.6}}</td>
-                                            <td>{{user.7}}</td>
                                             <td>{{user.8}}</td>
-                                            <td><button type="button" class="btn btn-outline-danger">Block</button>                                     
-                                        </tr>
+                                            <td><a href="/deleteUser/{{ user.0 }}"><button type="button" class="btn btn-outline-danger">Delete User</button></a>
                                         {% endfor %}
                                     </tbody>
                                 </table>
@@ -117,8 +113,8 @@
                                             <td>{{shop.0}}</td>
                                             <td>{{shop.1}}</td>
                                             <td>{{shop.2}}</td>
-                                            <td>{{shop.3}}</td>
-                                            <td><button type="button" class="btn btn-outline-danger">Delete</button></td>                                        
+                                            <td>{{shop.4}}</td>
+                                            <td><a href="/deleteShop/{{ shop.0 }}"><button type="button" class="btn btn-outline-danger">Delete Shop</button></a></td>                                        
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -128,5 +124,89 @@
                     </div>
             </div>
             <!-- End of Main Content -->
+
+
+
+
+            <!-- End of Main Content -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800"> Order Tables</h1>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">shops Table</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>name</th>
+                                            <th>number</th>
+                                            <th>email</th>
+                                            <th>address</th>
+                                            <th>paymentMethod</th>
+                                            <th>total</th>
+                                            <th>productId</th>
+                                            <th>productPrice</th>
+                                            <th>productName</th>
+                                            <th>date</th>
+                                            <th>approve</th>
+                                            <th>delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>name</th>
+                                            <th>number</th>
+                                            <th>email</th>
+                                            <th>address</th>
+                                            <th>paymentMethod</th>
+                                            <th>total</th>
+                                            <th>productId</th>
+                                            <th>productPrice</th>
+                                            <th>productName</th>
+                                            <th>date</th>
+                                            <th>approve</th>
+                                            <th>delete</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for order in orders %}
+                                        <tr>
+                                            <td>{{order.0}}</td>
+                                            <td>{{order.1}}</td>
+                                            <td>{{order.2}}</td>
+                                            <td>{{order.3}}</td>
+                                            <td>{{order.4}}</td>
+                                            <td>{{order.5}}</td>
+                                            <td>{{order.6}}</td>
+                                            <td>{{order.7}}</td>
+                                            <td>{{order.8}}</td>
+                                            <td>{{order.9}}</td>
+                                            <td>{{order.10}}</td>
+                                            {% if "0" in order.11 %}
+                                            <td><a href="/approveOrder/{{ order.0 }}"><button type="button" class="btn btn-outline-success">Approve</button></a></td>
+                                            {% else %}
+                                            <td style="color: yellowgreen;">approved</td>
+                                            {% endif %} 
+                                            <td><a href="/deleteOrder/{{ order.0 }}"><button type="button" class="btn btn-outline-danger">Delete order</button></a></td>                                        
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- End of Main Content -->
+
 
 {% endblock %}

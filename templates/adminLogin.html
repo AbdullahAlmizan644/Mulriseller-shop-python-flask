@@ -76,6 +76,7 @@
                                         <a class="small" href="register.html">Create an Account!</a>
                                     </div>-->
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -84,6 +85,17 @@
             </div>
 
         </div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
 
     </div>
 

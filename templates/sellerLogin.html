@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin Login -My Webpage</title>
+    <title>Seller Login -My Webpage</title>
 
     <!-- Custom fonts for this template-->
     <link href={{ url_for("static", filename="admin/vendor/fontawesome-free/css/all.min.css")}} rel="stylesheet" type="text/css">
@@ -24,12 +24,14 @@
 
     <div class="container">
 
+
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
             <div class="col-xl-10 col-lg-12 col-md-9">
 
                 <div class="card o-hidden border-0 shadow-lg my-5">
+
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
@@ -63,6 +65,18 @@
             </div>
 
         </div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+
 
     </div>
 

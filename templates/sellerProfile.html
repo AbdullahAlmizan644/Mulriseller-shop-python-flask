@@ -12,40 +12,62 @@
 {% endblock %}
 
 
+
+
 {% block content %}
 
-{% if "seller" in session %}
 
+{% if "seller" in session %}
+    {% set img = "front/img/" + seller.2|safe  %}
 <div class="pro">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
     <div class="container rounded bg-white mt-5 mb-5">
         <div class="row">
             <div class="col-md-5 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
                         width="150px"
-                        src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+                        src={{ url_for("static", filename= img )}} ><span
                         class="font-weight-bold">shop id</span><span
                         class="text-black-50">{{session["seller"]}}</span><span> </span>
-                        <button class="btn btn-primary profile-button" type="button">Change image</button>
+                        <form action="/sellerImageUploader" method="post"enctype="multipart/form-data">
+                            <div class="input-group">
+                                <input type="file" name="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Change Image</button>
+                            </div>
+                        </form>
+                        
                     </div>
 
             </div>
+
+
             <div class="col-md-6 border-right">
                 <div class="p-3 py-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3 class="text-right">Profile </h3>
+                        <h3 class="text-right"> Seller Profile </h3>
                     </div>
                     <div class="row mt-3">
-                        {% for shop in seller%}
+                        
                         <div class="col-md-12">
                             <label class="labels">shopid</label>
-                            <h4 style="color: lightcoral;">{{shop.0}}</h4>
+                            <h4 style="color: lightcoral;">{{seller.0}}</h4>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">shopid</label>
-                            <h4 style="color: lightcoral;">{{shop.1}}</h4>
+                            <h4 style="color: lightcoral;">{{seller.1}}</h4>
                         </div>
 
-                        {% endfor %}
+                        
                     </div>
                     <div class="mt-5 text-center">
                         <a href="/sellerDashboard"><button class="btn btn-info profile-button" type="button">dashboard</button></a>

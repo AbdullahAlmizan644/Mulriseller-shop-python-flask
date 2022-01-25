@@ -198,7 +198,8 @@
                     </div>
 
                     <div class="row align-items-center latest_product_inner">
-                        {% for product in shopProducts %}
+                        {% for product in products %}
+                        {% if product.5 == "Wall decoration" %}
                         {% set img = "front/img/" +product.4 %}
                         <div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
@@ -211,6 +212,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                         {% endfor %}
                         <!--<div class="col-lg-4 col-sm-6">
                             <div class="single_product_item">
