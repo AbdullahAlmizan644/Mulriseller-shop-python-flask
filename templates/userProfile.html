@@ -64,19 +64,29 @@
                             <label class="labels">Phone</label>
                             <h4 style="color: lightcoral;">{{users.3}}</h4>
                         </div>
+                        <div class="col-md-12">
+                            
+                            <a href="/userLogout"><button class="btn btn-danger profile-button" type="button">Logout</button></a>
+                        </div>
+                        
 
                     </div>
+                    
                     <div class="mt-5 text-center">
                         {% if "seller" not in session %}
                         <a href="/openShop"><button class="btn btn-outline-info" type="button">open shop</button></a>
                         {% endif %}
+                        
+                        <a href="/changeUserName"><button class="btn btn-outline-info" type="button">change Name</button></a>
                         <a href="/changeUserPassword"><button class="btn btn-outline-info" type="button">change password</button></a>
                         <a href="/orderHistory"><button class="btn btn-outline-info" type="button">order History</button></a>
-                        <a href="/userLogout"><button class="btn btn-danger profile-button" type="button">Logout</button></a>
+                        
                     
                     </div>
+                    
                 </div>
             </div>
+
             <!--<div class="col-md-4">
                 <div class="p-3 py-5">
                     <div class="d-flex justify-content-between align-items-center experience"><span>Edit

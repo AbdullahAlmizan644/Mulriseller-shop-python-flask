@@ -13,8 +13,7 @@ import os
 from werkzeug.utils import send_file
 from PIL import Image
 
-UPLOAD_FOLDER = '/home/ares/python_flask_interior_design_product_shop_project/static/front/img'
-
+UPLOAD_FOLDER = '/home/ares/Mulriseller-shop-python-flask/static/front/img'
 #ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
@@ -181,6 +180,33 @@ def changeUserPassword():
                 return redirect(request.url)
         
         return render_template("changeUserPassword.html",users=users)
+
+@app.route("/changeUserName",methods=["GET","POST"])
+def changeUserName():
+    if 'user' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM users WHERE email=%s ",(session['user'],))
+        users=cur.fetchone()
+        name=users[1]
+        if request.method=="POST":
+            old=request.form.get('old')
+            new=request.form.get('new')
+
+            if old=='' or new=='':
+                flash("blank")
+                return redirect(request.url)
+            if old!=name:
+                flash("old name not correct")
+                return redirect(request.url)
+            else:
+                cur=mysql.connection.cursor()
+                cur.execute("UPDATE users SET name=%s WHERE email=%s ",(new,session['user'],))
+                mysql.connection.commit()
+
+                flash("name changed")
+                return redirect(request.url)
+        
+        return render_template("changeUserName.html",users=users)
             
 
 
@@ -351,7 +377,7 @@ def electronics(id):
         shop=cur.fetchone()
 
         cur=mysql.connection.cursor()
-        cur.execute("SELECT * FROM  products")
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
         products=cur.fetchall()
 
         return render_template("electronics.html",products=products,shop=shop)
@@ -364,7 +390,7 @@ def sanitary(id):
         shop=cur.fetchone()
 
         cur=mysql.connection.cursor()
-        cur.execute("SELECT * FROM  products")
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
         products=cur.fetchall()
 
         return render_template("sanitary.html",products=products, shop=shop)
@@ -378,7 +404,7 @@ def wall(id):
         shop=cur.fetchone()
 
         cur=mysql.connection.cursor()
-        cur.execute("SELECT * FROM  products")
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
         products=cur.fetchall()
 
         return render_template("wall.html",products=products, shop=shop)
@@ -392,7 +418,7 @@ def painting(id):
         shop=cur.fetchone()
 
         cur=mysql.connection.cursor()
-        cur.execute("SELECT * FROM  products")
+        cur.execute("SELECT * FROM  products where shopId=%s",(id,) )
         products=cur.fetchall()
 
         return render_template("painting.html",products=products, shop=shop)
@@ -624,6 +650,65 @@ def sellerDashboard():
         cur.execute("SELECT * FROM products WHERE shopId=%s",(session_id,))
         products=cur.fetchall()
     return render_template("sellerDashboard.html",products=products)
+
+@app.route("/changeShopPassword",methods=["GET","POST"])
+def changeShopPassword():
+    if 'seller' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM shops WHERE shopId=%s ",(session['seller'],))
+        shops=cur.fetchone()
+        password=shops[3]
+        if request.method=="POST":
+            old=request.form.get('old')
+            new=request.form.get('new')
+            confirm=request.form.get('confirm')
+
+            if old=='' or new=='':
+                flash("blank")
+                return redirect(request.url)
+            if old!=password:
+                flash("old pasword not correct")
+                return redirect(request.url)
+            elif new!=confirm:
+                flash("password doesn't match")
+                return redirect(request.url)
+            else:
+                cur=mysql.connection.cursor()
+                cur.execute("UPDATE shops SET password=%s WHERE shopId=%s ",(new,session['seller'],))
+                mysql.connection.commit()
+
+                flash("password changed")
+                return redirect(request.url)
+        
+        return render_template("changeShopPassword.html",shops=shops)
+
+@app.route("/changeShopName",methods=["GET","POST"])
+def changeShopName():
+    if 'seller' in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM shops WHERE shopId=%s ",(session['seller'],))
+        shops=cur.fetchone()
+        name=shops[1]
+        if request.method=="POST":
+            old=request.form.get('old')
+            new=request.form.get('new')
+
+            if old=='' or new=='':
+                flash("blank")
+                return redirect(request.url)
+            if old!=name:
+                flash("old name not correct")
+                return redirect(request.url)
+            else:
+                cur=mysql.connection.cursor()
+                cur.execute("UPDATE shops SET shopName=%s WHERE shopId=%s ",(new,session['seller'],))
+                mysql.connection.commit()
+
+                flash("name changed")
+                return redirect(request.url)
+        
+        return render_template("changeShopName.html",shops=shops)
+            
 
 @app.route("/deleteProduct/<int:id>")
 def deleteProduct(id):

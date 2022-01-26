@@ -205,7 +205,7 @@
                                 <img src={{ url_for("static", filename=img )}}>
                                 <div class="single_product_text">
                                     <h4>{{product.1}}</h4>
-                                    <h3>{{product.3}}</h3>
+                                    <h3>{{product.3}}Tk</h3>
                                     <!--<a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>-->
                                     <a href="/singleProduct/{{product.0}}" class="genric-btn success">Buy</a>
                                 </div>
@@ -308,7 +308,7 @@
             <div class="col-lg-12">
                 <div class="best_product_slider owl-carousel">
                     {% for product in products%}
-                    {% set img = "front/img/product/" + product.4 %}
+                    {% set img = "front/img/" + product.4 %}
                     {% if product.6>200 %}
                     <div class="single_product_item">
                         <img src={{ url_for ("static", filename=img )}} alt="">
