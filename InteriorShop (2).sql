@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 25, 2022 at 08:17 PM
+-- Generation Time: Jan 26, 2022 at 01:55 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -66,9 +66,15 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`Id`, `product_name`, `product_description`, `product_price`, `product_image`, `category`, `sold`, `rating`, `date`, `shopId`) VALUES
-(25, 'Eden', 'Wooden Double Bed I BDH-358-3-1-20', '27140', 'bed.jpg', 'Furniture', 0, '0', '2022-01-26 01:04:00.110480', 3),
-(26, 'wall sticker', 'wall best sticker', '1200', 'wall.jpg', 'Wall decoration', 0, '0', '2022-01-26 01:07:08.529924', 3),
-(27, 'ardunio', 'best ardunio', '750tk', 'Arduino.jpg', 'Electronics', 0, '0', '2022-01-26 01:09:27.395508', 3);
+(25, 'Eden', 'Wooden Double Bed I BDH-358-3-1-20', '27140', 'bed.jpg', 'Furniture', 300, '0', '2022-01-26 01:04:00.110480', 3),
+(26, 'wall sticker', 'wall best sticker', '1200', 'wall.jpg', 'Wall decoration', 250, '0', '2022-01-26 01:07:08.529924', 3),
+(27, 'ardunio', 'best ardunio', '750tk', 'Arduino.jpg', 'Electronics', 0, '0', '2022-01-26 01:09:27.395508', 3),
+(28, 'Venus', 'Showcase | SCH-103-1-1-20\r\n', '3325', 'sch-103-1-1-20.jpg', 'Furniture', 500, '0', '2022-01-26 16:01:27.038015', 1),
+(29, 'wall decoration light', 'House exterior wall lights Ideas | Wall Lighting Design Ideas | Wall Decoration lights', '5000', 'maxresdefault.jpg', 'Electronics', 250, '0', '2022-01-26 16:03:33.366544', 1),
+(30, 'Hand Painting', 'man-made hand Painting', '2000', '8304b93b9685370df93cc882de6b6964.jpg', 'Painting', 600, '0', '2022-01-26 16:05:01.940515', 1),
+(31, 'Heritage', 'Wooden Dining Set | TDH-333 & CFD-333(6 PCS)', '50000', '3.jpg', 'Furniture', 0, '0', '2022-01-26 17:57:49.833101', 2),
+(32, 'White One Piece Toilet Seat', 'Contact seller to get latest images & best quotes', '3100', 'untitled-1-500x500.jpg', 'SanitarySystems', 0, '0', '2022-01-26 18:00:02.683709', 2),
+(33, 'wall showpice', '\r\n\r\nHandcrafted and Out of Best Wall Hanging Showpiece - Live Enhanced\r\n', '5000', 'hanging-show-piece-5.jpg', 'Wall decoration', 220, '0', '2022-01-26 18:02:14.902165', 2);
 
 -- --------------------------------------------------------
 
@@ -133,7 +139,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`sno`, `name`, `email`, `phone`, `division`, `district`, `area`, `password`, `date`, `image`) VALUES
-(11, 'video dekhbo', 'dekbovideo@gmail.com', '01862856218', 'Chittagong', 'Chittagong', 'Marium Nagar,Rangunia', '12345', '2022-01-14 18:58:43.039268', 'Screenshot from 2021-11-16 11-38-09.png');
+(14, 'Mizan', 'dekbovideo@gmail.com', '01862856218', 'Chittagong', 'Chittagong', 'Marium Nagar,Rangunia', '12345', '2022-01-26 18:46:17.435748', 'userLogo.png');
 
 --
 -- Indexes for dumped tables
@@ -179,13 +185,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `sno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `sno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -203,7 +209,7 @@ ALTER TABLE `shops`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `sno` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `sno` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
