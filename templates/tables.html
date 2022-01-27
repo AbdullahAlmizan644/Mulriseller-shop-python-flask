@@ -157,7 +157,7 @@
                                             <th>productPrice</th>
                                             <th>productName</th>
                                             <th>date</th>
-                                            <th>approve</th>
+                                            <th>approved</th>
                                             <th>delete</th>
                                         </tr>
                                     </thead>
@@ -174,7 +174,7 @@
                                             <th>productPrice</th>
                                             <th>productName</th>
                                             <th>date</th>
-                                            <th>approve</th>
+                                            <th>approved</th>
                                             <th>delete</th>
                                         </tr>
                                     </tfoot>
@@ -193,7 +193,7 @@
                                             <td>{{order.9}}</td>
                                             <td>{{order.10}}</td>
                                             {% if "0" in order.11 %}
-                                            <td><a href="/approveOrder/{{ order.0 }}"><button type="button" class="btn btn-outline-success">Approve</button></a></td>
+                                            <td><a href="/approveOrder/{{ order.0 }}"><button type="button" class="btn btn-outline-success">Approved</button></a></td>
                                             {% else %}
                                             <td style="color: yellowgreen;">approved</td>
                                             {% endif %} 

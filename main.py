@@ -13,6 +13,7 @@ import os
 from werkzeug.utils import send_file
 from PIL import Image
 
+
 UPLOAD_FOLDER = '/home/ares/Mulriseller-shop-python-flask/static/front/img'
 #ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -26,8 +27,8 @@ app.config["MAIL_SERVER"]='smtp.gmail.com'
 app.config["MAIL_PORT"] = 465
 app.config['MAIL_USE_TLS'] = False  
 app.config['MAIL_USE_SSL'] = True  
-app.config["MAIL_USERNAME"] = 'abdullahalmizan644@gmail.com'  
-app.config['MAIL_PASSWORD'] = '5255452554'  
+app.config["MAIL_USERNAME"] = 'mohammed.islam1976@gmail.com'  
+app.config['MAIL_PASSWORD'] = 'islam1976Dec'  
 mail=Mail(app)
 otp=randint(000000,999999)
 
