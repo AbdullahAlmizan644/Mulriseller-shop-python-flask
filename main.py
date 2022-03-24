@@ -14,8 +14,10 @@ from werkzeug.utils import send_file
 from PIL import Image
 
 
+
 UPLOAD_FOLDER = '/home/ares/Mulriseller-shop-python-flask/static/front/img'
 #ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
 
 
 app=Flask(__name__)
@@ -27,8 +29,8 @@ app.config["MAIL_SERVER"]='smtp.gmail.com'
 app.config["MAIL_PORT"] = 465
 app.config['MAIL_USE_TLS'] = False  
 app.config['MAIL_USE_SSL'] = True  
-app.config["MAIL_USERNAME"] = 'mohammed.islam1976@gmail.com'  
-app.config['MAIL_PASSWORD'] = 'islam1976Dec'  
+app.config["MAIL_USERNAME"] = 'abdullahalmizan644@gmail.com'  
+app.config['MAIL_PASSWORD'] = '5255452554'  
 mail=Mail(app)
 otp=randint(000000,999999)
 
@@ -267,23 +269,6 @@ def userLogout():
     return redirect("/")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 """Shop"""
 
 @app.route("/allShop")
@@ -301,8 +286,6 @@ def shop(shopId):
         cur.execute("SELECT * FROM  products where shopId=%s",(shopId,) )
         shop=cur.fetchone()
 
-
-
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM  products WHERE shopId=%s",(shopId,))
         shopProducts=cur.fetchall()
@@ -312,8 +295,8 @@ def shop(shopId):
         products=cur.fetchall()
         return render_template("shop.html",shopProducts=shopProducts,products=products,shop=shop)
     else:
-        return redirect("/login")
-
+    	return redirect("/login")
+    
         
 
 @app.route("/singleProduct/<int:id>",methods=["GET","POST"])
@@ -322,6 +305,19 @@ def singleProduct(id):
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM  products WHERE id=%s",(id,))
         single_product=cur.fetchone()
+        a_rating=single_product[7]
+
+        if float(a_rating) < 252:
+            a=5
+            
+        if float(a_rating)<124:
+            a=4
+        if float(a_rating)<40:
+            a=3
+        if float(a_rating)<29:
+            a=2
+        if float(a_rating)  <39:
+            a=1
 
         productId=single_product[0]
         cur=mysql.connection.cursor()
@@ -352,8 +348,31 @@ def singleProduct(id):
             return redirect(request.url)
 
     
-        return render_template("singleProduct.html", products=products,single_product=single_product,comments=comments)
+        return render_template("singleProduct.html", products=products,single_product=single_product,comments=comments,a=a)
 
+
+@app.route("/rating/<int:id>", methods=["GET","POST"])
+def rating(id):
+    if "user" in session:
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT * FROM  products WHERE id=%s",(id,))
+        single_product=cur.fetchone()
+
+
+        if request.method=="POST":
+            new_rating=request.form.get("product_rating")
+            if new_rating=='':
+                flash("please enter a rating between 1 to 5")
+            else:
+                rating=float(new_rating)
+            
+
+                total_rating=rating+float(single_product[7])
+
+                cur=mysql.connection.cursor()
+                cur.execute("UPDATE products set rating=%s WHERE id=%s",(total_rating,id))
+                mysql.connection.commit()
+    return"""<script> alert("Thanks for your rating")</script>"""
 
         
 @app.route("/category/furniture/<int:id>",methods=["GET","POST"])
@@ -446,9 +465,12 @@ def checkout(id):
             print(single_product[0])
             productName=single_product[1]
             productPrice=single_product[3]
+
+            p=float(productPrice)*0.05
+            
             total=int(single_product[3])+100
             cur=mysql.connection.cursor()  
-            cur.execute('INSERT INTO orders (name,number,email,address,paymentMethod,productId,total,date,productName,productPrice) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)' ,(user[1],user[3],user[2],address,selector,productId,total,datetime.now(),productName,productPrice) )
+            cur.execute('INSERT INTO orders (name,number,email,address,paymentMethod,productId,total,date,productName,productPrice,profit) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)' ,(user[1],user[3],user[2],address,selector,productId,total,datetime.now(),productName,productPrice,p) )
             mysql.connection.commit()
             return render_template("confirmation.html")
 
@@ -488,8 +510,18 @@ def dashboard():
     if 'admin' in session:
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM users")
-        users=cur.fetchall()   
-        return render_template("dashboard.html",users=users)
+        users=cur.fetchall() 
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT COUNT(sno) FROM orders WHERE STATUS=1")
+        pending=cur.fetchone() 
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT SUM(profit) FROM orders")
+        earning=cur.fetchone()
+
+
+        return render_template("dashboard.html",users=users,pending=pending,earning=earning)
     else:
         return redirect("/adminLogin")
 
@@ -650,7 +682,13 @@ def sellerDashboard():
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM products WHERE shopId=%s",(session_id,))
         products=cur.fetchall()
-    return render_template("sellerDashboard.html",products=products)
+
+        cur=mysql.connection.cursor()
+        cur.execute("SELECT COUNT(id) FROM products WHERE shopId=%s",(session_id,))
+        total=cur.fetchone()
+        print(total) 
+
+    return render_template("sellerDashboard.html",products=products, total=total)
 
 @app.route("/changeShopPassword",methods=["GET","POST"])
 def changeShopPassword():
@@ -709,7 +747,8 @@ def changeShopName():
                 return redirect(request.url)
         
         return render_template("changeShopName.html",shops=shops)
-            
+
+
 
 @app.route("/deleteProduct/<int:id>")
 def deleteProduct(id):
@@ -718,6 +757,7 @@ def deleteProduct(id):
         cur.execute("DELETE FROM products WHERE Id=%s",(id,))
         mysql.connection.commit()
         return redirect("/sellerDashboard")
+
 
 
 
