@@ -13,21 +13,6 @@
 
   <!--================Home Banner Area =================-->
   <!-- breadcrumb start-->
-  <section class="breadcrumb breadcrumb_bg">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="breadcrumb_iner">
-            <div class="breadcrumb_iner_item">
-              <h2>Cart Products</h2>
-              <p>Home <span>-</span>Cart Products</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- breadcrumb start-->
 
   <!--================Cart Area =================-->
   <section class="cart_area padding_top">
@@ -37,170 +22,259 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Product</th>
+                <th scope="col">Product Image</th>
+                <th scope="col">Product Name</th>
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Total</th>
+                <th scope="col">Cancel</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="media">
-                    <div class="d-flex">
-                      <img src={{ url_for ("static", filename="front/img/product/single-product/cart-1.jpg")}} alt="" />
-                    </div>
-                    <div class="media-body">
-                      <p>Minimalistic shop for multipurpose use</p>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <h5>$360.00</h5>
-                </td>
-                <td>
-                  <div class="product_count">
-                    <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
-                    <input class="input-number" type="text" value="1" min="0" max="10">
-                    <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
-                  </div>
-                </td>
-                <td>
-                  <h5>$720.00</h5>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="media">
-                    <div class="d-flex">
-                      <img src={{ url_for ("static", filename="front/img/product/single-product/cart-1.jpg")}} alt="" />
-                    </div>
-                    <div class="media-body">
-                      <p>Minimalistic shop for multipurpose use</p>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <h5>$360.00</h5>
-                </td>
-                <td>
-                  <div class="product_count">
-                    <!-- <input type="text" value="1" min="0" max="10" title="Quantity:"
-                      class="input-text qty input-number" />
-                    <button
-                      class="increase input-number-increment items-count" type="button">
-                      <i class="ti-angle-up"></i>
-                    </button>
-                    <button
-                      class="reduced input-number-decrement items-count" type="button">
-                      <i class="ti-angle-down"></i>
-                    </button> -->
-                    <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
-                    <input class="input-number" type="text" value="1" min="0" max="10">
-                    <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
-                  </div>
-                </td>
-                <td>
-                  <h5>$720.00</h5>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="media">
-                    <div class="d-flex">
-                      <img src={{ url_for ("static", filename="front/img/product/single-product/cart-1.jpg")}} alt="" />
-                    </div>
-                    <div class="media-body">
-                      <p>Minimalistic shop for multipurpose use</p>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <h5>$360.00</h5>
-                </td>
-                <td>
-                  <div class="product_count">
-                    <span class="input-number-decrement"> <i class="ti-angle-down"></i></span>
-                    <input class="input-number" type="text" value="1" min="0" max="10">
-                    <span class="input-number-increment"> <i class="ti-angle-up"></i></span>
-                  </div>
-                </td>
-                <td>
-                  <h5>$720.00</h5>
-                </td>
-              </tr>
-              <tr class="bottom_button">
-                <td>
-                  <a class="btn_1" href="#">Update Cart</a>
-                </td>
-                <td></td>
-                <td></td>
-                <td>
-                  <div class="cupon_text float-right">
-                    <a class="btn_1" href="#">Close Coupon</a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td>
-                  <h5>Subtotal</h5>
-                </td>
-                <td>
-                  <h5>$2160.00</h5>
-                </td>
-              </tr>
-              <tr class="shipping_area">
-                <td></td>
-                <td></td>
-                <td>
-                  <h5>Shipping</h5>
-                </td>
-                <td>
-                  <div class="shipping_box">
-                    <ul class="list">
-                      <li>
-                        <a href="#">Flat Rate: $5.00</a>
-                      </li>
-                      <li>
-                        <a href="#">Free Shipping</a>
-                      </li>
-                      <li>
-                        <a href="#">Flat Rate: $10.00</a>
-                      </li>
-                      <li class="active">
-                        <a href="#">Local Delivery: $2.00</a>
-                      </li>
-                    </ul>
-                    <h6>
-                      Calculate Shipping
-                      <i class="fa fa-caret-down" aria-hidden="true"></i>
-                    </h6>
-                    <select class="shipping_select">
-                      <option value="1">Bangladesh</option>
-                      <option value="2">India</option>
-                      <option value="4">Pakistan</option>
-                    </select>
-                    <select class="shipping_select section_bg">
-                      <option value="1">Select a State</option>
-                      <option value="2">Select a State</option>
-                      <option value="4">Select a State</option>
-                    </select>
-                    <input type="text" placeholder="Postcode/Zipcode" />
-                    <a class="btn_1" href="#">Update Details</a>
-                  </div>
-                </td>
-              </tr>
+            <tbody id="cartTable">
+
             </tbody>
           </table>
+          <h6>Subtotal: <span id="subTotal">0</span></h1>
+            <h6>shipping: <span id="shipping" >50</span></h6>
+            <h6>Total: <span id="totalPrice">0</span></h6> 
           <div class="checkout_btn_inner float-right">
-            <a class="btn_1" href="#">Continue Shopping</a>
-            <a class="btn_1 checkout_btn_1" href="#">Proceed to checkout</a>
+            
+            <a class="btn_1 checkout_btn_1" href="/checkout">Proceed to checkout</a>
           </div>
+         
         </div>
       </div>
   </section>
   <!--================End Cart Area =================-->
+
+
+  <script>
+
+    let value=JSON.parse(localStorage.getItem('product'));
+    let count=localStorage.getItem('count');
+    let subTotal=0;
+    
+    
+    function restore(){
+        let restoreLocalValue = parseInt(localStorage.getItem('count'));
+        const cartCounter=document.getElementById("cartCounter");
+        if(restoreLocalValue){
+            cartCounter.textContent=restoreLocalValue;
+            subTotalPlus();
+        }
+        
+    
+    }
+    
+    function updateHtml(){
+      const empty=[];
+      const productList=JSON.parse(localStorage.getItem('product'));
+      console.log(productList);
+      const cartTable=document.getElementById('cartTable');
+      if(productList.length===0){
+        cartTable.innerHTML="No Product In cart";
+      }else{
+    
+      for(let i=0;i<productList.length;i++){
+        const html=tableRow(productList[i].image,productList[i].name,productList[i].price,productList[i].quantity,productList[i].total);
+        empty.push(html);
+        cartTable.innerHTML=empty.join('' );
+    
+        
+    }
+    }
+      const cartCounter=document.querySelector("#cartCounter");
+      const plus=document.querySelectorAll("#plus");
+      const minus=document.querySelectorAll("#minus");
+      const quantityInput=document.querySelectorAll('#textbox');
+      const priceTotal=document.querySelectorAll("#priceTotal")
+      const removeButton=document.querySelectorAll("#removeButton");
+      
+      // console.log(subTotal.innerHTML);
+        // console.log(quantityInput);
+      // console.log(plus[2]);
+      plus.forEach((item,index)=>{
+        item.addEventListener('click',()=>{
+          if(quantityInput[index].value>=5){
+            alert("you cannot buy more than 5 item on any product if you want contact with us");
+            quantityInput[index].value=5;
+            value[index].quantity=5;
+            value[index].total=value[index].price*value[index].quantity;
+            priceTotal[index].innerHTML=value[index].total;
+            localStorage.setItem('product',JSON.stringify(value));
+          }else{
+    
+            quantityInput[index].value++;
+            value[index].quantity=parseInt(value[index].quantity)+1;
+            value[index].total=value[index].price*value[index].quantity;
+            priceTotal[index].innerHTML=value[index].total;
+            count++;
+            cartCounter.textContent=count;
+            localStorage.setItem('product',JSON.stringify(value));
+            localStorage.setItem('count',count);
+            subTotalPlus();
+          }
+         
+        })
+    
+      })
+    
+    
+      minus.forEach((item,index)=>{
+        item.addEventListener('click',()=>{
+          if(quantityInput[index].value<=0){
+            quantityInput[index].value=0;
+            value[index].quantity=0;
+            value[index].total=value[index].price*value[index].quantity;
+            priceTotal[index].innerHTML=value[index].total;
+            localStorage.setItem('product',JSON.stringify(value));
+          }else{
+            quantityInput[index].value--;
+            value[index].quantity=parseInt(value[index].quantity)-1;
+            value[index].total=value[index].price*value[index].quantity;
+            priceTotal[index].innerHTML=value[index].total;
+            count--;
+            cartCounter.textContent=count;
+            localStorage.setItem('product',JSON.stringify(value));
+            localStorage.setItem('count',count);
+            subTotalPlus();
+          }
+          
+          // const quantityValue=quantityInput[index];
+        })
+    
+      })
+    
+      removeButton.forEach((item,index)=>{
+        item.addEventListener('click',()=>{
+          let quantity=parseInt(value[index].quantity);
+          value.splice(index,1);
+          count=count-quantity;
+          cartCounter.textContent=count;
+          localStorage.setItem('count',count);
+          localStorage.setItem('product',JSON.stringify(value));
+          subTotalPlus();
+          updateHtml();
+        })
+    
+    
+      })
+    
+      }
+    
+    
+      function subTotalPlus(){
+        const subTotal=document.querySelector("#subTotal");
+        const totalPrice=document.querySelector("#totalPrice");
+        let productTotal=JSON.parse(localStorage.getItem('product'));
+        let sum=0;
+        for(let i=0;i<productTotal.length;i++){
+          sum = sum + parseInt(productTotal[i].total);
+          // console.log(sum);
+    
+        }
+        localStorage.setItem('subTotal',sum);
+        let catchTotal=localStorage.getItem('subTotal');
+        subTotal.innerHTML=catchTotal;
+        if(catchTotal===0){
+          totalPrice.innerHTML=0;
+        }else{
+          totalPrice.innerHTML=parseInt(catchTotal)+50;
+        }
+      }
+    
+    
+    
+    
+    function tableRow(image,name,price,quantity,total){
+      return `<tr>
+                    <td class="product-thumbnail">
+                      <img src="static/front/img/${image}" height="100px" width="100px"  alt="Image" class="img-fluid">
+                    </td>
+                    <td class="product-name">
+                      <h2 class="h5 text-black">${name}</h2>
+                    </td>
+                    <td>${price}</td>
+                    <td>
+                      <div class="input-group mb-3" style="max-width: 120px;">
+                        <div class="input-group-prepend">
+                          <button class="btn btn-outline-primary" id="minus" type="button">&minus;</button>
+                        </div>
+                        <input type="text" class="form-control text-center" value="${quantity}" id="textbox" placeholder=""
+                          aria-label="Example text with button addon" aria-describedby="button-addon1">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-primary" id="plus" type="button">&plus;</button>
+                        </div>
+                      </div>
+    
+                    </td>
+                    <td id="priceTotal">${total}</td>
+                    <td><a href="#" class="btn btn-primary btn-sm" id="removeButton" >X</a></td>
+                  </tr>`;
+    }
+    
+    
+    
+    window.addEventListener("load",()=>{
+        updateHtml();
+        restore();
+        
+    });
+    
+      // var subTotal=document.getElementById("subTotal");
+      // var shipping = document.getElementById("shipping");
+      // var total = document.getElementById("total");
+      // var coupon = document.getElementById("coupon");
+    
+      // function decreaseNumber(i,p) {
+      //   var itemVal = document.getElementById(i);
+      //   var price = document.getElementById(p);
+    
+      //   // console.log(itemVal)
+      //   if(itemVal.value<=0){
+      //     itemVal.value=0;
+      //     alert("negitive not allowed")
+      //   }
+      //   else{
+      //     itemVal.value=parseInt(itemVal.value)-1;
+      //     price.innerHTML=parseInt(price.innerHTML)-15;
+      //     subTotal.innerHTML=parseInt(subTotal.innerHTML)-15;
+      //     total.innerHTML=parseInt(subTotal.innerHTML)+parseInt(shipping.innerHTML);
+      //   }
+        
+      // }
+    
+      // function increaseNumber(i,p) {
+      //   var itemVal = document.getElementById(i,p);
+      //   var price = document.getElementById(p);
+      //   // console.log(itemVal)
+      //   if(itemVal.value>=5){
+      //     itemVal.value=5;
+      //     alert("Maxium 5 product allowed");
+      //   }
+      //   else{
+      //     itemVal.value=parseInt(itemVal.value)+1;
+      //     price.innerHTML=parseInt(price.innerHTML)+15;
+      //     subTotal.innerHTML=parseInt(subTotal.innerHTML)+15;
+      //     total.innerHTML=parseInt(subTotal.innerHTML)+parseInt(shipping.innerHTML);
+      //   }
+        
+      // }
+    
+    
+      // function discountCode(){
+    
+      //   if(coupon.value=="mizan"){
+      //     total.innerHTML=parseInt(total.innerHTML)-30;
+      //     alert("you get 30 taka discount!!")
+      //   }
+        
+      // }
+    
+    
+    
+    
+    </script>
+    
 
 {% endblock %}

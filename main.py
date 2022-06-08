@@ -14,11 +14,8 @@ from werkzeug.utils import send_file
 from PIL import Image
 
 
-
-UPLOAD_FOLDER = '/home/ares/Mulriseller-shop-python-flask/static/front/img'
-#ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
-
+UPLOAD_FOLDER = '/home/zeus/Mulriseller-shop-python-flask/static/front/img'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app=Flask(__name__)
 mail=Mail(app)
@@ -29,31 +26,20 @@ app.config["MAIL_SERVER"]='smtp.gmail.com'
 app.config["MAIL_PORT"] = 465
 app.config['MAIL_USE_TLS'] = False  
 app.config['MAIL_USE_SSL'] = True  
-app.config["MAIL_USERNAME"] = 'abdullahalmizan644@gmail.com'  
-app.config['MAIL_PASSWORD'] = '5255452554'  
+app.config["MAIL_USERNAME"] = 'southern.rakib@gmail.com'  
+app.config['MAIL_PASSWORD'] = 'bangladesh523395'  
 mail=Mail(app)
 otp=randint(000000,999999)
 
 
-app.secret_key="Ali"
+app.secret_key="rakib"
 app.config['MYSQL_HOST']= '127.0.0.1'
 app.config['MYSQL_USER']='root'
 app.config['MYSQL_PASSWORD']=''
 app.config['MYSQL_DB']='InteriorShop'
 
 
-
-
-
-
 mysql=MySQL(app)
-
-
-
-
-
-
-
 
 
 """Landing Page"""
@@ -73,15 +59,6 @@ def index():
 
 
 
-
-
-
-
-
-
-
-
-
 """"User Autintecation"""
 
 @app.route("/contact", methods=["GET","POST"])
@@ -90,7 +67,7 @@ def contact():
         user_message=request.form.get("message")
         name=request.form.get("name")
         email=request.form.get('email')
-        my_email="abdullahalmizan644@gmail.com"
+        my_email="southern.rakib@gmail.com"
         msg=Message('MESSAGE from : '+name,sender=email, recipients=[my_email])   
         msg.body=user_message
         mail.send(msg)
@@ -112,16 +89,35 @@ def verify():
         district=request.form.get('district')
         area=request.form.get('area')
         password=request.form.get('password')
-        cur=mysql.connection.cursor()
-        cur.execute(' INSERT INTO users(name,email,phone,division,district,area,password,date) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)',(name,email,phone,division,district,area,password,datetime.now()))
-        mysql.connection.commit()
 
-        msg=Message('OTP',sender="abdullahalmizan644@gmail.com", recipients=[email])
-        msg.body=str(otp)
-        mail.send(msg)
-        return render_template("verify.html")
 
-    return render_template("verify.html")
+        if len(name)<4:
+            flash("name must be greater than 4 alphabet.",category="error")
+            return redirect(request.url)
+
+        elif len(email)<5:
+            flash("email must be greater than 5 alphabet.",category="error")
+            return redirect(request.url)
+
+        elif len(phone)<11:
+            flash("Phone must be greater than 10 digit.",category="error")
+            return redirect(request.url)
+
+        elif len(password)<8:
+            flash("Password must be greater than 8 digit.",category="error")
+            return redirect(request.url)
+        else:
+            cur=mysql.connection.cursor()
+            cur.execute(' INSERT INTO users(name,email,phone,division,district,area,password,date) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)',(name,email,phone,division,district,area,password,datetime.now()))
+            mysql.connection.commit()
+
+            msg=Message('OTP',sender="southern.rakib@gmail.com", recipients=[email])
+            msg.body=str(otp)
+            mail.send(msg)
+            flash("Send a otp number in your mail.",category="success")
+            return render_template("verify.html")
+
+    return render_template("signup.html")
 
 
 
@@ -129,9 +125,11 @@ def verify():
 def validate():
     user_otp=request.form['otp']
     if otp == int(user_otp):
+        flash("Matched otp and account created succesfully!")
         return render_template("login.html")
     else:
-        return "wrong otp"
+        flash("Wrong otp",category="error")
+        return redirect(request.url)
 
     
 
@@ -144,11 +142,11 @@ def login():
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM users WHERE email=%s AND password=%s ",(email,password,))
         data=cur.fetchone()
-        if data is not None:
+        if data:
             session["user"]=email
             return redirect("/userProfile")
         else:
-            flash("Wrong email or password")
+            flash("Wrong email or password",category="error")
             return redirect(request.url)
     return render_template("login.html")
 
@@ -279,6 +277,10 @@ def allShop():
     return render_template("allShop.html",shops=shops)
 
 
+@app.route("/cart")
+def cart():
+    return render_template("cart.html")
+
 @app.route("/shop/<int:shopId>")
 def shop(shopId):
     if "user" in session:
@@ -374,6 +376,7 @@ def rating(id):
                 mysql.connection.commit()
     return"""<script> alert("Thanks for your rating")</script>"""
 
+
         
 @app.route("/category/furniture/<int:id>",methods=["GET","POST"])
 def category(id):
@@ -389,6 +392,8 @@ def category(id):
 
         return render_template("furniture.html",products=products, shop=shop)
 
+
+
 @app.route("/category/electronics/<int:id>",methods=["GET","POST"])
 def electronics(id):
     if "user" in session:
@@ -401,6 +406,7 @@ def electronics(id):
         products=cur.fetchall()
 
         return render_template("electronics.html",products=products,shop=shop)
+
 
 @app.route("/category/sanitarySystems/<int:id>",methods=["GET","POST"])
 def sanitary(id):
@@ -445,8 +451,8 @@ def painting(id):
 
 
 
-@app.route("/checkout/<int:id>",methods=["POST","GET"])
-def checkout(id):
+@app.route("/checkout",methods=["POST","GET"])
+def checkout():
     if "user" in session:
         cur=mysql.connection.cursor()
         cur.execute("SELECT * FROM  products WHERE id=%s",(id,))
@@ -541,7 +547,8 @@ def deleteUser(sno):
 def deleteShop(id):
     if 'admin' in session:
         cur=mysql.connection.cursor()
-        cur.execute("DELETE FROM shops WHERE shopId=%s",(id,))
+        cur.execute("DELETE FROM shops WHERE shopId=%s",(id
+        ,))
         mysql.connection.commit()
         return redirect("/tables")
 
@@ -553,7 +560,6 @@ def deleteOrder(id):
         cur.execute("DELETE FROM orders WHERE sno=%s",(id,))
         mysql.connection.commit()
         return redirect("/tables")
-
 
 
 
@@ -582,6 +588,8 @@ def tables():
         return redirect("/adminLogin")
 
 
+
+
 @app.route("/approveOrder/<int:id>")
 def approveOrder(id):
     if 'admin' in session:
@@ -591,7 +599,8 @@ def approveOrder(id):
         return redirect("/tables")
 
 
-""""Seller login"""
+
+
 
 @app.route("/openShop", methods=["GET","POST"])
 def openShop():
@@ -601,8 +610,10 @@ def openShop():
         cur=mysql.connection.cursor()
         cur.execute(' INSERT INTO shops(shopName,password,date) VALUES (%s,%s,%s)',(shopName,password,datetime.now()))
         mysql.connection.commit()
-        return redirect("/")
+        flash("Congratution you successfully open a shop.now you are a seller of interior shop!!",category="success")
+        return redirect("/allShop")
     return render_template("openShop.html")
+
 
 
 
@@ -622,6 +633,7 @@ def sellerLogin():
         else:
             flash("Wrong Shop Name or password")
     return render_template("sellerLogin.html")
+
 
 
 
@@ -656,20 +668,13 @@ def sellerImageUploader():
         return redirect("/sellerProfile")
 
             
-
-
-            
-
-
-
+        
 
 
 @app.route("/sellerLogout")
 def sellerLogout():
     session.pop("seller", None)
     return redirect("/")
-
-
 
 
 

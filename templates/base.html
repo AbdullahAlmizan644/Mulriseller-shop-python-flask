@@ -128,15 +128,12 @@
                         </div>
                         <div class="hearer_icon d-flex">
                             <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <!--<a href=""><i class="ti-heart"></i></a>-->
-                            <!--<div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-cart-plus"></i>
+                            <!-- <a href=""><i class="ti-heart"></i></a> -->
+                            <div class="dropdown cart">
+                                <a class="dropdown-toggle" href="/cart" id="navbarDropdown3">
+                                    <i class="fas fa-cart-plus" id="cartCounter">0</i>
                                 </a>
-                                
-
-                            </div>-->
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -153,6 +150,24 @@
         </div>
     </header>
     <!-- Header part end-->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for category, message in messages %}
+            {% if category == "error"%}
+            <div class="alert alert-danger" style="margin-top: 80px;" role="alert">
+                {{message}}
+            </div>
+            {% elif category=="success" %}
+            <div class="alert alert-success" style="margin-top: 80px;"  role="alert">
+                {{message}}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
 
 
 

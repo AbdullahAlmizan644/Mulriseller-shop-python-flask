@@ -1,158 +1,14 @@
-<!doctype html>
-<html lang="zxx">
+{% extends "base.html" %}
+{% block title %}Shop{%endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
 
-<head>
-    {% block head %}
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}{% endblock %} - My Webpage</title>
-    <!--<link rel="icon" href={{ url_for ("static", filename="front/img/favicon.png")}}>-->
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href={{ url_for ("static", filename="front/css/bootstrap.min.css")}}>
-    <!-- animate CSS -->
-    <link rel="stylesheet" href={{ url_for ("static", filename="front/css/animate.css")}}>
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href={{ url_for ("static", filename="front/css/owl.carousel.min.css")}}>
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href={{ url_for ("static", filename="front/css/all.css")}}>
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href={{ url_for ("static", filename="front/css/flaticon.css")}}>
-    <link rel="stylesheet" href={{ url_for ("static", filename="front/css/themify-icons.css")}}>
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href={{ url_for ("static", filename="front/css/magnific-popup.css")}}>
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href={{ url_for ("static", filename="front/css/slick.css")}}>
-    <!-- flaticon CSS -->
-    <!-- style CSS -->
-    <link rel="stylesheet" href={{ url_for("static", filename="front/css/style.css")}}>
+</style>
+{% endblock %}
 
 
-
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-    <link href={{ url_for("static", filename="rating/css/star-rating.css")}} media="all" rel="stylesheet" type="text/css"/>
-    <link href={{ url_for("static", filename="rating/themes/krajee-fas/theme.css")}} media="all" rel="stylesheet" type="text/css"/>
-    <link href={{ url_for("static", filename="rating/themes/krajee-svg/theme.css")}} media="all" rel="stylesheet" type="text/css"/>
-    <!-- suppress JSUnresolvedLibraryURL -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src={{ url_for("static", filename="rating/js/star-rating.js")}} type="text/javascript"></script>
-    <script src={{ url_for("static", filename="rating/themes/krajee-fas/theme.js")}} type="text/javascript"></script>
-    <script src={{ url_for("static", filename="rating/themes/krajee-svg/theme.js")}} type="text/javascript"></script>
-    {% endblock %}
-</head>
-
-
-<body>
-    <!--::header part start::-->
-    <header class="main_menu home_menu">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="/" > <img height="50px" width="40px" src={{ url_for ("static", filename="front/img/icon/play.svg")}} alt="logo">Interior Shop</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/">Home</a>
-                                </li>
-                               <!--<li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Shop
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="category.html"> shop category</a>
-                                        <a class="dropdown-item" href="single-product.html">product details</a>
-
-                                    </div>
-                                </li>-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/allShop">Shops</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Login
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="/login"> login</a>
-                                        <a class="dropdown-item" href="/sellerLogin">seller Login</a>
-                                        <a class="dropdown-item" href="/adminLogin">Admin Login</a>
-
-                                        <!--<a class="dropdown-item" href="elements.html">elements</a>-->
-                                    </div>
-                                </li>
-                                <!--<li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        blog
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="blog.html"> blog</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                                    </div>-->
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/contact">Contact</a>
-                                </li>
-                                <!--{% if "user" not in session %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/userProfile">Profile</a>
-                                </li>
-                                {% endif %}-->
-                                {% if "user" in session %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/userProfile">{{session["user"]}}</a>
-                                </li>
-                                {% endif %}
-                                {% if "seller" in session %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/sellerProfile">sellerProfile</a>
-                                </li>
-                                {% endif %}
-                                {% if "admin" in session %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/dashboard">Admin</a>
-                                </li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                        <div class="hearer_icon d-flex">
-                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <!--<a href=""><i class="ti-heart"></i></a>-->
-                            <!--<div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-cart-plus"></i>
-                                </a>
-                                
-
-                            </div>-->
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <div class="search_input" id="search_input_box">
-            <div class="container ">
-                <form class="d-flex justify-content-between search-inner" method="post" action="/searchProduct">
-                    <input type="text" class="form-control" id="search_input" name="searchProduct" placeholder="Search Here" required>
-                    <button type="submit" class="btn</button>
-                    <span class="ti-close" id="close_search" title="Close Search"></span>
-                </form>
-            </div>
-        </div>
-    </header>
-    <!-- Header part end-->
+{% block content %}
 
 <!-- breadcrumb start
 <section class="breadcrumb breadcrumb_bg">
@@ -198,6 +54,12 @@
       <div class="col-lg-5 col-xl-4">
         <div class="s_product_text">
           <!--<h5>previous <span>|</span> next</h5>-->
+          <input type="hidden" name="" value="{{count}}" id="item">
+          <input type="hidden" id="id-{{count}}" value="{{single_product.0}}">
+          <input type="hidden" id="productName-{{ count}}" value="{{single_product.1}}">
+          <input type="hidden" id="price-{{ count}}" value="{{single_product.4}}">
+          <input type="hidden" id="productImage-{{ count}}" value="{{single_product.2}}">
+
           <h3>{{single_product.1}}</h3>
           <h2>{{single_product.3}}Tk</h2>
           <ul class="list">
@@ -208,15 +70,15 @@
             <li>
               <span>Availibility</span> : In Stock
             </li>
-            <li>
-              <span>Rating</span> : <span style="color: red;">{{a}}</span>
-              <input id="kartik" class="rating" data-stars="5" name="product_rating" data-step="0.1" title=""/>
-            </li>
+            <!-- <li>
+                <span>Rating</span> : <span style="color: red;">{{a}}</span>
+                <input id="kartik" class="rating" data-stars="5" name="product_rating" data-step="0.1" title="" />
+              </li> -->
           </ul>
           <p>
             {{single_product.2}}
           </p>
-          
+
           <div class="card_area d-flex justify-content-between align-items-center">
             <!-- <div class="product_count">
               <span class="inumber-decrement"> <i class="ti-minus"></i></span>
@@ -225,7 +87,7 @@
               <a href="/checkout/{{ single_product.0 }}" class="btn_2">Add to cart</a>
             </div> -->
 
-            <a href="/checkout/{{ single_product.0 }}" class="btn_3">Buy</a>
+            <a class="btn_3 add-cart" id="add-cart">Add to cart</a>
 
           </div>
         </div>
@@ -235,31 +97,28 @@
 </div>
 
 
-<!--================End Single Product Area =================-->
-
-<!--================Product Description Area =================-->
 <section class="product_description_area">
   {% with messages = get_flashed_messages() %}
   {% if messages %}
-      <ul class=flashes>
-      {% for message in messages %}
-      <div class="alert alert-danger" role="alert">
-          {{ message }}
-      </div>
-      {% endfor %}
-      </ul>
+  <ul class=flashes>
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </ul>
   {% endif %}
   {% endwith %}
   <div class="container">
-    <div class="m-5">
+    <!-- <div class="m-5">
 
-      <form action="/rating/{{single_product.0}}" method="post">
-          <input id="kartik" class="rating" data-stars="5" name="product_rating" data-step="0.1" title=""/>
+        <form action="/rating/{{single_product.0}}" method="post">
+          <input id="kartik" class="rating" data-stars="5" name="product_rating" data-step="0.1" title="" />
           <div class="form-group" style="margin-top:10px">
-              <button type="submit" class="btn btn-info">Rate</button>
+            <button type="submit" class="btn btn-info">Rate</button>
           </div>
-      </form>
-    </div>
+        </form>
+      </div> -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
@@ -284,13 +143,16 @@
           eius laborum quaerat sunt rerum quisquam quia rem vero hic dolor consequuntur aliquam quos repudiandae.
           Possimus illo dolore nostrum. Exercitationem, dolore! Adipisci veritatis debitis nesciunt magnam, sapiente
           eaque iusto quas odit aliquam at inventore ea consequatur vel provident quos tenetur magni non. In, quasi.
-          Sequi iure nostrum atque voluptates? Deserunt, consequuntur. Aut repellendus repudiandae sunt modi ducimus est
+          Sequi iure nostrum atque voluptates? Deserunt, consequuntur. Aut repellendus repudiandae sunt modi ducimus
+          est
           amet quo atque, nulla similique quia, delectus esse adipisci corrupti ex natus autem et non cum nam nemo!
-          Exercitationem voluptas, maxime officia facere illum error officiis doloremque omnis rerum accusamus, ab neque
+          Exercitationem voluptas, maxime officia facere illum error officiis doloremque omnis rerum accusamus, ab
+          neque
           distinctio recusandae accusantium veritatis quos facilis cum sint dolorum, aperiam fugit similique. Tempore,
           unde excepturi. Deleniti minus quos excepturi praesentium odit ab quas eius ad. Consequuntur voluptatem
           aliquam, veritatis reiciendis necessitatibus, libero asperiores sequi doloremque dolore unde cum. Debitis
-          delectus rerum distinctio in dolore aperiam, ipsa accusamus est repellat velit maxime sed doloribus voluptates
+          delectus rerum distinctio in dolore aperiam, ipsa accusamus est repellat velit maxime sed doloribus
+          voluptates
 
         </p>
         <p>
@@ -299,7 +161,8 @@
           sapiente, iusto repellat consequuntur repellendus, quam officiis eos quis. Est qui officiis quas aspernatur
           consectetur maxime, ea quam facilis delectus quaerat at voluptas architecto dolorum praesentium autem culpa
           mollitia cumque, suscipit odio repellendus ipsa aliquid. Nemo unde maiores autem facere incidunt iusto
-          sapiente et quis impedit, velit eligendi temporibus. Non sit, vitae optio sequi incidunt, voluptas veritatis,
+          sapiente et quis impedit, velit eligendi temporibus. Non sit, vitae optio sequi incidunt, voluptas
+          veritatis,
           unde debitis laborum officiis provident. Deleniti non optio veniam voluptatibus incidunt est consectetur
           abdita magni illo. Odio perspiciatis sed natus quisquam maiores magnam officiis
           inventore incidunt recusandae?
@@ -411,7 +274,8 @@
               <form class="row contact_form" action="" method="post" novalidate="novalidate">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <textarea class="form-control" name="message" rows="1" style="height: 200px;" placeholder="Review"></textarea>
+                    <textarea class="form-control" name="message" rows="1" style="height: 200px;"
+                      placeholder="Review"></textarea>
                   </div>
                 </div>
                 <div class="col-md-12 text-right">
@@ -450,7 +314,7 @@
             <div class="single_product_text">
               <h4>{{product.1}}</h4>
               <h3>{{product.3}}Tk</h3>
-              <a href="/singleProduct/{{product.0}}" class="genric-btn success">Buy</a>
+              <a href="/singleProduct/{{product.0}}" class="genric-btn success">View Details</a>
             </div>
           </div>
           {% endif %}
@@ -488,217 +352,167 @@
     </div>
   </div>
 </section>
-<!-- product_list part end-->
+
 
 <script>
-  jQuery(document).ready(function () {
-      $("#input-21f").rating({
-          starCaptions: function (val) {
-              if (val < 3) {
-                  return val;
-              } else {
-                  return 'high';
-              }
-          },
-          starCaptionClasses: function (val) {
-              if (val < 3) {
-                  return 'label label-danger';
-              } else {
-                  return 'label label-success';
-              }
-          },
-          hoverOnClear: false
-      });
-      var $inp = $('#rating-input');
 
-      $inp.rating({
-          min: 0,
-          max: 5,
-          step: 1,
-          size: 'lg',
-          showClear: false
-      });
-
-      $('#btn-rating-input').on('click', function () {
-          $inp.rating('refresh', {
-              showClear: true,
-              disabled: !$inp.attr('disabled')
-          });
-      });
+  let data = [];
 
 
-      $('.btn-danger').on('click', function () {
-          $("#kartik").rating('destroy');
-      });
 
-      $('.btn-success').on('click', function () {
-          $("#kartik").rating('create');
-      });
-
-      $inp.on('rating.change', function () {
-          alert($('#rating-input').val());
-      });
+  function Order(id, name, price, quantity, image) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.quantity = quantity;
+    this.image = image;
+    this.total = this.price;
+  }
 
 
-      $('.rb-rating').rating({
-          'showCaption': true,
-          'stars': '3',
-          'min': '0',
-          'max': '3',
-          'step': '1',
-          'size': 'xs',
-          'starCaptions': {0: 'status:nix', 1: 'status:wackelt', 2: 'status:geht', 3: 'status:laeuft'}
-      });
-      $("#input-21c").rating({
-          min: 0, max: 8, step: 0.5, size: "xl", stars: "8"
-      });
+  function getValue(index) {
+    let idValue = parseInt(document.getElementById("item").value);
+    const list = [];
+    const id = document.getElementById(`id-${idValue}`).value;
+    const productName = document.getElementById(`productName-${idValue}`).value;
+    const price = document.getElementById(`price-${idValue}`).value;
+    console.log(price);
+    const productImage = document.getElementById(`productImage-${idValue}`).value;
+
+    console.log(document.getElementById(`price-${idValue}`).value);
+
+
+    list.push(id, productName, parseInt(price), productImage);
+    return list;
+
+  }
+
+
+
+  function save(obj) {
+
+    // console.log("keno tumi run hocco na")
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id === obj.id) {
+        data[i].quantity = data[i].quantity + 1;
+        data[i] = data[i];
+        data[i].total = data[i].price * data[i].quantity;
+        return;
+      }
+    };
+
+    data.push(obj);
+  };
+
+  function orderProduct(index) {
+
+    // const properties=getValue(index);
+    // const obj=new Order(index,properties[1],properties[2],1,properties[3]);
+    // obj.totalCost();
+    // save(obj);
+    // localStorage.setItem('product',JSON.stringify(data));
+
+    const cartData = JSON.parse(localStorage.getItem('product'));
+    // let catchCount=parseInt(localStorage.getItem('count'));
+
+    if (cartData) {
+      data = cartData;
+      const properties = getValue();
+      const obj = new Order(index, properties[1], properties[2], 1, properties[3]);
+      // obj.totalCost();
+      save(obj);
+      localStorage.setItem('product', JSON.stringify(data));
+
+    } else {
+
+      const properties = getValue(index);
+      const obj = new Order(index, properties[1], properties[2], 1, properties[3]);
+      // obj.totalCost();
+      save(obj);
+      localStorage.setItem('product', JSON.stringify(data));
+
+    }
+
+
+  }
+
+
+  function costCalculation() {
+
+  }
+
+
+  function countOrder() {
+    const cartCounter = document.getElementById("cartCounter");
+    let catchCount = parseInt(localStorage.getItem('count'));
+
+    if (catchCount) {
+      catchCount++;
+      localStorage.setItem('count', catchCount);
+      cartCounter.textContent = catchCount;
+
+    } else {
+      localStorage.setItem('count', 1);
+      cartCounter.textContent = 1;
+    }
+
+
+  }
+
+  function nextPreOrder(index) {
+    countOrder();
+    orderProduct(index);
+
+  }
+
+
+  function addCart() {
+    // console.log("hello2");
+    // console.log(document.getElementById("item").value);
+    let idValue = parseInt(document.getElementById("item").value);
+
+    let addCart = document.querySelector('.add-cart');
+    console.log("hello2");
+    addCart.addEventListener('click', () => {
+      nextPreOrder(idValue);
+    })
+
+
+    // cart.forEach((item, index) => {
+    //   item.addEventListener('click', () => {
+    //     let idValue=parseInt(document.getElementById("item").value);
+    //     nextPreOrder(idValue);
+
+    //   })
+    // })
+  }
+
+
+  function restore() {
+    let restoreLocalValue = parseInt(localStorage.getItem('count'));
+    const cartCounter = document.getElementById("cartCounter");
+    if (restoreLocalValue) {
+      cartCounter.textContent = restoreLocalValue;
+    }
+
+  }
+
+
+
+
+  function manageOrder() {
+    // const cart = document.querySelectorAll("#add-cart");
+    console.log("hello");
+    restore();
+    addCart();
+
+  }
+
+
+  window.addEventListener("load", () => {
+    manageOrder();
   });
+
 </script>
 
-    <!--::footer_part start::-->
-    <footer class="footer_part">
-      {% block footer %}
-          <div class="container">
-              <div class="row justify-content-around">
-                  <!-- <div class="col-sm-6 col-lg-2">
-                      <div class="single_footer_part">
-                          <h4>Top Products</h4>
-                          <ul class="list-unstyled">
-                              <li><a href="">Managed Website</a></li>
-                              <li><a href="">Manage Reputation</a></li>
-                              <li><a href="">Power Tools</a></li>
-                              <li><a href="">Marketing Service</a></li>
-                          </ul>
-                      </div>
-                  </div> -->
-                  <!-- <div class="col-sm-6 col-lg-2">
-                      <div class="single_footer_part">
-                          <h4>Quick Links</h4>
-                          <ul class="list-unstyled">
-                              <li><a href="">Jobs</a></li>
-                              <li><a href="">Brand Assets</a></li>
-                              <li><a href="">Investor Relations</a></li>
-                              <li><a href="">Terms of Service</a></li>
-                          </ul>
-                      </div>
-                  </div>
-                  <div class="col-sm-6 col-lg-2">
-                      <div class="single_footer_part">
-                          <h4>Features</h4>
-                          <ul class="list-unstyled">
-                              <li><a href="">Jobs</a></li>
-                              <li><a href="">Brand Assets</a></li>
-                              <li><a href="">Investor Relations</a></li>
-                              <li><a href="">Terms of Service</a></li>
-                          </ul>
-                      </div>
-                  </div> -->
-                  <!--<div class="col-sm-6 col-lg-2">
-                      <div class="single_footer_part">
-                          <h4>Resources</h4>
-                          <ul class="list-unstyled">
-                              <li><a href="">Guides</a></li>
-                              <li><a href="">Research</a></li>
-                              <li><a href="">Experts</a></li>
-                              <li><a href="">Agencies</a></li>
-                          </ul>
-                      </div>
-                  </div>-->
-                 <!--<div class="col-sm-6 col-lg-4">
-                      <div class="single_footer_part">
-                          <h4>Newsletter</h4>
-                          <p>Heaven fruitful doesn't over lesser in days. Appear creeping
-                          </p>
-                          <div id="mc_embed_signup">
-                              <form target="_blank"
-                                  action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                  method="get" class="subscribe_form relative mail_part">
-                                  <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
-                                      class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                      onblur="this.placeholder = ' Email Address '">
-                                  <button type="submit" name="submit" id="newsletter-submit"
-                                      class="email_icon newsletter-submit button-contactForm">subscribe</button>
-                                  <div class="mt-10 info"></div>
-                              </form>
-                          </div>
-                      </div>
-                  </div>-->
-              </div>
-  
-          </div>
-          <div class="copyright_part">
-              <div class="container">
-                  <div class="row">
-                      <div class="col-lg-8">
-                          <div class="copyright_text">
-                              <P>
-                                  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                  Copyright &copy;
-                                  <script>document.write(new Date().getFullYear());</script> All rights reserved
-                                  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                              </P>
-                          </div>
-                      </div>
-                      <div class="col-lg-4">
-                          <div class="footer_icon social_icon">
-                              <ul class="list-unstyled">
-                                  <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
-                                  <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
-                                  <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
-                                  <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          {% endblock %}
-      </footer>
-      <!--::footer_part end::-->
-  
-      <!-- jquery plugins here-->
-      <script src={{ url_for("static", filename="front/js/jquery-1.12.1.min.js" )}}></script>
-      <!-- popper js 
-      <script src="js/popper.min.js"></script>-->
-      <script src={{ url_for("static", filename="front/js/popper.min.js" )}}></script>
-      <!-- bootstrap js 
-      <script src="js/bootstrap.min.js"></script>-->
-      <script src={{ url_for("static", filename="front/js/bootstrap.min.js" )}}></script>
-      <!-- easing js 
-      <script src="js/jquery.magnific-popup.js"></script>-->
-      <script src={{ url_for("static", filename="front/js/jquery.magnific-popup.js" )}}></script>
-      <!-- swiper js 
-      <script src="js/swiper.min.js"></script>-->
-      <script src={{ url_for("static", filename="front/js/swiper.min.js" )}}></script>
-      <!-- swiper js 
-      <script src="js/masonry.pkgd.js"></script>-->
-      <script src={{ url_for("static", filename="front/js/masonry.pkgd.js" )}}></script>
-      <!-- particles js 
-      <script src="js/owl.carousel.min.js"></script>
-      <script src="js/jquery.nice-select.min.js"></script>-->
-      <script src={{ url_for("static", filename="front/js/owl.carousel.min.js" )}}></script>
-      <script src={{ url_for("static", filename="front/js/jquery.nice-select.min.js" )}}></script>
-      <!-- slick js 
-      <script src="js/slick.min.js"></script>
-      <script src="js/jquery.counterup.min.js"></script>
-      <script src="js/waypoints.min.js"></script>
-      <script src="js/contact.js"></script>
-      <script src="js/jquery.ajaxchimp.min.js"></script>
-      <script src="js/jquery.form.js"></script>
-      <script src="js/jquery.validate.min.js"></script>
-      <script src="js/mail-script.js"></script>-->
-  
-  
-      <script src={{ url_for("static", filename="front/js/slick.min.js" )}}></script>
-      <script src={{ url_for("static", filename="front/js/jquery.counterup.min.js" )}}></script>
-      <script src={{ url_for("static", filename="front/js/waypoints.min.js" )}}></script>
-      <script src={{ url_for("static", filename="front/js/contact.js" )}}></script>
-      <script src={{ url_for("static", filename="front/js/jquery.ajaxchimp.min.js" )}}></script>
-      <script src={{ url_for("static", filename="front/js/jquery.form.js" )}}></script>
-      <script src={{ url_for("static", filename="front/js/jquery.validate.min.js" )}}></script>
-      <script src={{ url_for("static", filename="front/js/mail-script.js" )}}></script>
-      <!-- custom js -->
-      <script src={{ url_for("static", filename="front/js/custom.js" )}}></script>
-  </body>
-  
-  </html>
+{% endblock %}

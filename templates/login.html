@@ -31,17 +31,6 @@
     <!--================login_part Area =================-->
     <section class="login_part padding_top">
         <div class="container">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul class=flashes>
-                {% for message in messages %}
-                <div class="alert alert-danger" role="alert">
-                    {{ message }}
-                </div>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            {% endwith %}
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-6">
                     <div class="login_part_text text-center">

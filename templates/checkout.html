@@ -3,14 +3,13 @@
 {% block head %}
 {{ super() }}
 <style type="text/css">
-  .m{
+  .m {
     margin: 0px 0px;
   }
 
-  .s{
+  .s {
     margin: 42px -26px;
   }
-
 </style>
 {% endblock %}
 
@@ -19,98 +18,159 @@
 
 
 <!--================Checkout Area =================-->
+<!--================Checkout Area =================-->
 <section class="checkout_area padding_top">
   <div class="container">
     <div class="billing_details">
       <div class="row">
         <div class="col-lg-8">
           <h3>Billing Details</h3>
-          <form class="row contact_form" action="/checkout/{{ single_product.0 }}" method="post">
-            <div class="form-floating">
-              <label for="floatingTextarea2">Address</label>
-              <textarea class="form-control" name="address" placeholder="Give your address in Details" id="floatingTextarea2" style="width: 500px; height: 100px"></textarea>
-              
-              <div>
-                <br>
-                <h3>Payment Method</h3>
-                <div class="form-check m">
-                  <input class="form-check-input s" type="radio" name="selector" value="cash on delivery" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Cash on delivery
-                  </label>
-                  <img width="100px" height="100px" src={{url_for("static", filename="front/img/icon/cash.jpg" )}} alt="">
-                </div>
+          <form class="row contact_form" action="#" method="post" novalidate="novalidate">
 
-                <br>
-                <div class="form-check m">
-                  <input class="form-check-input s" type="radio" name="selector" value="Bikash" id="flexRadioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Bikash
-                  </label>
-                  <img width="200px" height="100px" src={{url_for("static", filename="front/img/icon/bikash.svg" )}} alt="">
-                  <img src="" alt="">
-                </div>
-
-                <br>
-                <div class="form-check m">
-                  <input class="form-check-input s" type="radio" name="selector" value="Nogod" id="flexRdioDefault1">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Nogod
-                  </label>
-                  <img width="100px" height="100px" src={{url_for("static", filename="front/img/icon/nogod.svg" )}} alt="">
-                </div>
-              </div>
+            <div class="col-md-12 form-group">
+              <textarea class="form-control" name="message" id="message" rows="1" placeholder="Address"></textarea>
             </div>
-
-
-
+          </form>
         </div>
         <div class="col-lg-4">
           <div class="order_box">
             <h2>Your Order</h2>
-            <ul class="list">
-              <li>
-                <a href="#">Product
-                  <span>Total</span>
-                </a>
-              </li>
-              <li>
-                <a href="#">{{ single_product.1 }}
-                  <!--<span class="middle">x 02</span>-->
-                  <span class="last">{{ single_product.3 }}</span>
-                </a>
-              </li>
-            </ul>
-            <ul class="list list_2">
-              <!--<li>
-                <a href="#">Subtotal
-                  <span>$2160.00</span>
-                </a>
-              </li>-->
-              <li>
-                <a href="#">Shipping Charge
-                  <span>100Tk</span>
-                </a>
-              </li>
-              <li>
-                <a href="#">Total
-                  <span>{{ single_product.3|int + 100 }}</span>
-                </a>
-              </li>
-            </ul>
-            <br>
-            <br>
+            <table class="table site-block-order-table mb-5">
+              <thead>
+                <th>Product</th>
+                <th>Total</th>
+              </thead>
+              <tbody id="cartTable">
 
-            <!--<a class= href="/order/{{ single_product.0 }}">Confirm Order</a>-->
-            <button class="btn_3" type="submit">confirm Order</button>
+              </tbody>
+              <tbody>
+                <tr>
+                  <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                  <td class="text-black"><strong id="subTotal">0</strong><span>Tk</span></td>
+                </tr>
+                <tr>
+                  <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                  <input type="hidden" name="total" id="totalCost">
+                  <input type="hidden" name="all" id="all">
+                  <td class="text-black font-weight-bold"><strong id="totalPrice">0</strong><span> Tk</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="payment_item">
+              <div class="radion_btn">
+                <input type="radio" id="f-option5" name="selector" />
+                <label for="f-option5">Cash On delivery</label>
+                <div class="check"></div>
+              </div>
+            </div>
+            <div class="payment_item active">
+              <div class="radion_btn">
+                <input type="radio" id="f-option6" name="selector" />
+                <label for="f-option6">Bikash</label>
+                <img src="img/product/single-product/card.jpg" alt="" />
+                <div class="check"></div>
+              </div>
+            </div>
+            <div class="payment_item active">
+              <div class="radion_btn">
+                <input type="radio" id="f-option6" name="selector" />
+                <label for="f-option6">Nogod</label>
+                <img src="img/product/single-product/card.jpg" alt="" />
+                <div class="check"></div>
+              </div>
+            </div>
+            <a class="btn_3" href="#">Proceed to Paypal</a>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  </form>
 </section>
 <!--================End Checkout Area =================-->
+<!--================End Checkout Area =================-->
+
+
+<script>
+
+  let catchProduct=[];
+
+
+  function updateHtml() {
+    let value = JSON.parse(localStorage.getItem("product"));
+    const empty = [];
+    const cartTable = document.getElementById('cartTable');
+
+    value.forEach((element) => {
+      let html = tableRow(element.name, element.total, element.quantity);
+      empty.push(html);
+      cartTable.innerHTML = empty.join('');
+
+    });
+    console.log(empty);
+
+  }
+
+  function restore() {
+    let restoreLocalValue = parseInt(localStorage.getItem('count'));
+    const cartCounter = document.getElementById("cartCounter");
+    if (restoreLocalValue) {
+      cartCounter.textContent = restoreLocalValue;
+      subTotalPlus();
+    }
+
+
+  }
+
+
+  function subTotalPlus() {
+    const subTotal = document.querySelector("#subTotal");
+    const totalPrice = document.querySelector("#totalPrice");
+    const totalCost = document.querySelector("#totalCost");
+    // let productTotal=JSON.parse(localStorage.getItem('product'));
+    // let sum=0;
+    // for(let i=0;i<productTotal.length;i++){
+    //   sum = sum + parseInt(productTotal[i].total);
+    //   console.log(sum);
+
+    // }
+    // localStorage.setItem('subTotal',sum);
+    let catchTotal = localStorage.getItem('subTotal');
+    subTotal.innerHTML = catchTotal;
+    totalPrice.innerHTML = parseInt(catchTotal) + 50;
+    totalCost.value=parseInt(catchTotal)+50
+    getValue();
+  }
+
+  function getValue(){
+
+    const catchValue =localStorage.getItem('product');
+
+
+
+
+    const all=document.getElementById("all");
+    all.value=catchValue;
+
+  }
+
+
+
+  function tableRow(productName, price, quantity) {
+    return `<tr>
+      <input type="hidden" value="${productName},${quantity},${price}" name="product_details">
+      <input type="hidden" value="${price}">
+      <input type="hidden" value="${quantity}" name="product">
+      <td>${productName}<strong class="mx-2">x</strong>${quantity}</td>
+      <td>${price}</td>
+    </tr>`;
+  }
+
+  window.addEventListener('load', () => {
+    updateHtml();
+    restore();
+  })
+
+
+</script>
 
 {% endblock %}

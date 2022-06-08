@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 24, 2022 at 07:11 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.12
+-- Generation Time: Jun 08, 2022 at 05:33 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,7 +35,6 @@ CREATE TABLE `orders` (
   `address` varchar(200) NOT NULL,
   `paymentMethod` varchar(200) NOT NULL,
   `total` varchar(200) DEFAULT NULL,
-  `productId` varchar(200) DEFAULT NULL,
   `productPrice` varchar(200) DEFAULT NULL,
   `profit` varchar(200) NOT NULL,
   `productName` varchar(200) DEFAULT NULL,
@@ -47,12 +46,8 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`sno`, `name`, `number`, `email`, `address`, `paymentMethod`, `total`, `productId`, `productPrice`, `profit`, `productName`, `date`, `status`) VALUES
-(32, 'Ali Murtuza', '01862816218', 'alimurtuza@gmail.com', 'halisohor', 'Bikash', '50100', '31', '50000', '', 'Heritage', '2022-01-28 18:50:13.464986', '1'),
-(33, 'Ali Murtuza', '01862816218', 'alimurtuza@gmail.com', 'halisohor', 'cash on delivery', '3200', '32', '3100', '', 'White One Piece Toilet Seat', '2022-01-28 18:50:57.227135', '0'),
-(34, 'Ali Murtuza', '01862816218', 'alimurtuza@gmail.com', 'halisohor', 'Bikash', '5100', '33', '5000', '', 'wall showpice', '2022-01-28 18:51:22.428446', '0'),
-(35, 'Ali Murtuza', '01862816218', 'alimurtuza@gmail.com', 'halisohor', 'Bikash', '27240', '25', '27140', '', 'Eden', '2022-01-28 19:00:07.406375', '0'),
-(36, 'mizan', '01862856218', 'mizan@gmail.com', 'bnnbn', 'cash on delivery', '3425', '28', '3325', '166.25', 'Venus', '2022-03-24 00:50:57.865721', '0');
+INSERT INTO `orders` (`sno`, `name`, `number`, `email`, `address`, `paymentMethod`, `total`, `productPrice`, `profit`, `productName`, `date`, `status`) VALUES
+(35, 'Ali Murtuza', '01862816218', 'alimurtuza@gmail.com', 'halisohor', 'Bikash', '27240', '27140', '', 'Eden', '2022-01-28 19:00:07.406375', '0');
 
 -- --------------------------------------------------------
 
@@ -64,7 +59,7 @@ CREATE TABLE `products` (
   `Id` int(11) NOT NULL,
   `product_name` varchar(200) NOT NULL,
   `product_description` varchar(1000) NOT NULL,
-  `product_price` varchar(200) NOT NULL,
+  `product_price` varchar(1000) NOT NULL,
   `product_image` varchar(200) NOT NULL,
   `category` varchar(200) NOT NULL,
   `sold` int(200) DEFAULT NULL,
@@ -87,7 +82,9 @@ INSERT INTO `products` (`Id`, `product_name`, `product_description`, `product_pr
 (31, 'Heritage', 'Wooden Dining Set | TDH-333 & CFD-333(6 PCS)', '50000', '3.jpg', 'Furniture', 0, '0', '2022-01-26 17:57:49.833101', 2),
 (32, 'White One Piece Toilet Seat', 'Contact seller to get latest images & best quotes', '3100', 'untitled-1-500x500.jpg', 'SanitarySystems', 0, '40', '2022-01-26 18:00:02.683709', 2),
 (33, 'wall showpice', '\r\n\r\nHandcrafted and Out of Best Wall Hanging Showpiece - Live Enhanced\r\n', '5000', 'hanging-show-piece-5.jpg', 'Wall decoration', 220, '0', '2022-01-26 18:02:14.902165', 2),
-(35, 'xzmznxmz', 'zx xz x ', 'zx zxzxzxz', 'bed.jpg', 'Furniture', 0, '0', '2022-03-23 23:48:25.669983', 8);
+(35, 'xzmznxmz', 'zx xz x ', 'zx zxzxzxz', 'bed.jpg', 'Furniture', 0, '0', '2022-03-23 23:48:25.669983', 8),
+(36, 'Decals Wall Sticker \r\n', 'Decals Design \'Lovely Butterflies\' Wall Sticker (PVC Vinyl, 90 cm x 30 cm, Black)\r\n', '189Tk', '51EhZDoJH7L.jpg', 'Wall decoration', 0, '0', '2022-05-30 00:03:44.247892', 1),
+(38, 'Bathtub', 'A bathtub, also known simply as a bath or tub, is a container for holding water in which a person or animal may bathe. Most modern bathtubs are made of thermoformed acrylic, porcelain-enameled steel, fiberglass-reinforced polyester, or porcelain-enameled cast iron. A bathtub is usually placed in a bathroom either as a stand-alone fixture or in conjunction with a shower.\r\n\r\nModern bathtubs have overflow and waste drains and may have taps mounted on them. They are usually built-in, but may be free-standing or sometimes sunken. Until recently, most bathtubs were roughly rectangular in shape, but with the advent of acrylic thermoformed baths, more shapes are becoming available. Bathtubs are commonly white in color, although many other colors can be found. The process for enamelling cast iron bathtubs was invented by the Scottish-born American David Dunbar Buick.\r\n\r\n\r\nAstronaut Jack Lousma taking a shower in space, 1974\r\nTwo main styles of bathtub are common:', '30,000tk', 'jacuzzi-bathtub-500x500.jpg', 'SanitarySystems', 0, '0', '2022-05-30 00:17:24.944645', 1);
 
 -- --------------------------------------------------------
 
@@ -137,7 +134,8 @@ INSERT INTO `shops` (`shopId`, `shopName`, `shopImage`, `password`, `date`) VALU
 (2, 'shop2', 'shopLogo.png', '12345', '2021-11-18 20:49:26.000000'),
 (3, 'shop3', 'shopLogo.png', '12345', '2021-11-19 20:49:26.000000'),
 (7, 'shop4', 'shopLogo.png', '12345', '2022-02-27 21:52:23.609302'),
-(8, 'shop1', 'shopLogo.png', '12345678', '2022-03-23 23:12:47.860329');
+(10, 'shop5', 'shopLogo.png', '12345678', '2022-05-29 21:13:40.616576'),
+(11, 'mizan', 'shopLogo.png', '12345', '2022-05-29 23:36:01.695254');
 
 -- --------------------------------------------------------
 
@@ -163,8 +161,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`sno`, `name`, `email`, `phone`, `division`, `district`, `area`, `password`, `date`, `image`) VALUES
-(14, 'Ali Murtuza', 'alimurtuza@gmail.com', '01862816218', 'Chittagong', 'Chittagong', 'halisohor', '12345', '2022-01-26 18:46:17.435748', 'Screenshot from 2021-12-16 19-35-34.png'),
-(15, 'mizan', 'mizan@gmail.com', '01862856218', 'Chittagong', 'Chittagong', 'Halisohor', '12345678', '2022-02-27 21:43:49.904207', 'userLogo.png');
+(15, 'mizan', 'mizan@gmail.com', '01862856218', 'Chittagong', 'Chittagong', 'Halisohor', '12345678', '2022-02-27 21:43:49.904207', 'userLogo.png'),
+(16, 'rakib', 'southern.rakib@gmail.com', '01316523395', 'Chittagong', 'Chittagong', 'Bohaddarhat', '12345678', '2022-05-29 12:19:11.869082', 'userLogo.png'),
+(17, 'rakib', 'southern.rakib@gmail.com', '01316523395', 'Chittagong', 'Chittagong', 'Bohaddarhat', '12345678', '2022-05-29 12:19:57.398050', 'userLogo.png'),
+(18, 'rakib', 'southern.rakib@gmail.com', '01316523395', 'Chittagong', 'Chittagong', 'Bohaddarhat', '12345678', '2022-05-29 12:20:17.960513', 'userLogo.png'),
+(19, 'rakib', 'southern.rakib@gmail.com', '01316523395', 'Chittagong', 'Chittagong', 'Bohaddarhat', '12345678', '2022-05-29 12:22:40.461853', 'userLogo.png'),
+(20, 'rakib', 'southern.rakib@gmail.com', '01316523395', 'Chittagong', 'Chittagong', 'Bohaddarhat', '12345678', '2022-05-29 12:23:31.535012', 'userLogo.png'),
+(21, 'rakib', 'southern.rakib@gmail.com', '01316523395', 'Chittagong', 'Chittagong', 'Bohaddarhat', '12345678', '2022-05-29 12:27:37.428360', 'userLogo.png'),
+(22, 'mizan@gmail.com', 'tasfia@gmail.com', '01862856218', 'Chittagong', 'Chittagong', 'Halisohor', '12345678', '2022-05-29 20:46:23.785751', 'userLogo.png'),
+(23, 'mizan@gmail.com', 'CNcbnmxc', '1212', 'Chittagong', 'Chittagong', 'Halisohor', '12345678', '2022-05-29 20:50:21.411722', 'userLogo.png'),
+(24, 'mizan', 'ab@gmail.com', '01302068942', 'Chittagong', 'Chittagong', 'Halisohor', '12345678', '2022-05-29 23:35:01.486815', 'userLogo.png');
 
 --
 -- Indexes for dumped tables
@@ -216,7 +222,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -228,13 +234,13 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `shops`
 --
 ALTER TABLE `shops`
-  MODIFY `shopId` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `shopId` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `sno` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `sno` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
